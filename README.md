@@ -8,6 +8,7 @@ MISSING DESCRIPTION
     - [Required tools](#required-tools)
     - [Required hardware](#required-hardware)
   - [Setup Environment](#setup-environment)
+  - [Git guidelines](#git-guidelines)
   - [License](#license)
 
 ## Requirements
@@ -23,6 +24,32 @@ MISSING DESCRIPTION
 
 ## Setup Environment
 WIP
+
+## Git guidelines
+inspired by [blackfalcon](https://gist.github.com/blackfalcon/8428401) & [angular](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit)
+
+16:52
+
+<> aren't part of the name, only mark variables
+- branch hierachy
+  - master
+    - `<feature>`
+      - `<type>`-`<titel-kebab-case>`
+- pull requests
+  - have to be reviewed by at least one other person
+  - rebase, merge
+- Commit & pull request format
+  - `<type>`:`<short summary>`
+  - `<type>`
+    - docs      - documentation only
+    - feat      - new feature
+    - fix       - a bug fix
+    - refactor  - a code change that neither fixes a bug nor adds a feature
+    - perf      - a code change that improves performance
+  - `<short summary>`
+    - present tense
+    - not capitalized
+    - no period at the end
 
 ## License
 Copyright (C) <2022> <your name> (<your email address>)
