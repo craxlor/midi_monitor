@@ -28,8 +28,6 @@ WIP
 ## Git guidelines
 inspired by [blackfalcon](https://gist.github.com/blackfalcon/8428401) & [angular](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit)
 
-16:52
-
 <> aren't part of the name, only mark variables
 - branch hierachy
   - master
