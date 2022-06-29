@@ -16,7 +16,7 @@ MISSING DESCRIPTION
 ### Required tools
   - [MIOS STUDIO](http://www.ucapps.de/mios_studio.html)
   - [MSYS 1.0](https://sourceforge.net/projects/mingw/files/MSYS/Base/msys-core/msys-1.0.11/MSYS-1.0.11.exe/download?use_mirror=netcologne)
-  - [Arm GNU Toolchain](https://developer.arm.com/downloads/-/gnu-rm)
+  - [Arm GNU Toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads)
 
 ### Required hardware
   -  MBHP_CORE_STM32F4XX
