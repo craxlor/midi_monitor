@@ -16,14 +16,47 @@ MISSING DESCRIPTION
 ### Required tools
   - [MIOS STUDIO](http://www.ucapps.de/mios_studio.html)
   - [MSYS 1.0](https://sourceforge.net/projects/mingw/files/MSYS/Base/msys-core/msys-1.0.11/MSYS-1.0.11.exe/download?use_mirror=netcologne)
-  - [mios32 toolchain](http://www.midibox.org/mios32_toolchain/)
+  - [Arm GNU Toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads)
 
 ### Required hardware
   -  MBHP_CORE_STM32F4XX
   -  some displays
 
 ## Setup Environment
-WIP
+  1. install all required tools listed above whereever you want
+  2. add the bin folders from the toolchain & msys to your user/system-path variable
+  3. Visual Studio Code
+     1. go to your settings.json 
+        1. (press `shift` + `ctrl` + `p`)
+        2. type `settings`
+        3. click `Preferences: Open Settings (JSON)`
+     2. add a new terminal to open msys in vsc
+        1. ```
+            "terminal.integrated.profiles.windows": {
+                "Msys 1.0 MIOS": {
+                    "overrideName": true,
+                    "color": "terminal.ansiGreen",
+                    "env": {
+                        "MIOS32_GCC_PREFIX": "arm-none-eabi",
+                        "MIOS32_FAMILY": "STM32F4xx",
+                        "MIOS32_PROCESSOR": "STM32F407VG",
+                        "MIOS32_BOARD": "MBHP_CORE_STM32F4",
+                        "MIOS32_LCD": "universal",
+                        "MIOS32_BIN_PATH": "/D/Coding_projects/Cpp/midi_monitor/mios32/bin",
+                        "MIOS32_PATH": "/D/Coding_projects/Cpp/midi_monitor/mios32",
+                    },
+                    "path": "C:\\msys\\1.0\\bin\\sh.exe",
+                    "args": [
+                        "--login",
+                        "-i",
+                        "-c",
+                        "cd '/d/Coding_projects/Cpp/midi_monitor'; $SHELL"
+                    ]
+                }
+              }
+              ```
+
+
 
 ## Git guidelines
 inspired by [blackfalcon](https://gist.github.com/blackfalcon/8428401) & [angular](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit)

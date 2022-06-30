@@ -7,7 +7,7 @@
  *  Copyright (C) <year> <your name> (<your email address>)
  *  Licensed for personal non-commercial use only.
  *  All other rights reserved.
- * 
+ *
  * ==========================================================================
  */
 
@@ -16,8 +16,9 @@
 /////////////////////////////////////////////////////////////////////////////
 
 #include <mios32.h>
-#include "app.h"
-
+#include <app.h>
+#include <string>
+#include "midipackage.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called after startup to initialize the application
@@ -27,10 +28,7 @@
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_Init(void)
 {
-  // initialize all LEDs
-  MIOS32_BOARD_LED_Init(0xffffffff);
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // This task is running endless in background
@@ -38,7 +36,6 @@ extern "C" void APP_Init(void)
 extern "C" void APP_Background(void)
 {
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called each mS from the main task which also handles DIN, ENC
@@ -49,11 +46,7 @@ extern "C" void APP_Background(void)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_Tick(void)
 {
-  // PWM modulate the status LED (this is a sign of life)
-  u32 timestamp = MIOS32_TIMESTAMP_Get();
-  MIOS32_BOARD_LED_Set(1, (timestamp % 20) <= ((timestamp / 100) % 10));
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called each mS from the MIDI task which checks for incoming
@@ -64,14 +57,16 @@ extern "C" void APP_MIDI_Tick(void)
 {
 }
 
-
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called when a MIDI package has been received
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_package_t midi_package)
 {
-}
+  MidiPackage package(midi_package);
 
+  MIOS32_MIDI_SendDebugMessage("Port:%02d  Type:%02s  Chn:%d  Note:%02s  Vel:%02d\n",
+                               port, package.getType(), package.getChannel(), package.getNote(), package.getVelocity());
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called before the shift register chain is scanned
@@ -80,14 +75,12 @@ extern "C" void APP_SRIO_ServicePrepare(void)
 {
 }
 
-
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called after the shift register chain has been scanned
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_SRIO_ServiceFinish(void)
 {
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called when a button has been toggled
@@ -97,7 +90,6 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 {
 }
 
-
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called when an encoder has been moved
 // incrementer is positive when encoder has been turned clockwise, else
@@ -106,7 +98,6 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 extern "C" void APP_ENC_NotifyChange(u32 encoder, s32 incrementer)
 {
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called when a pot has been moved

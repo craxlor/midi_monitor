@@ -18,7 +18,7 @@ LCD       =     $(MIOS32_LCD)
 THUMB_SOURCE    = 
 
 # add C++ files here
-THUMB_CPP_SOURCE = app.cpp
+THUMB_CPP_SOURCE = app.cpp midipackage.cpp
 
 
 # (following source stubs not relevant for Cortex M3 derivatives)

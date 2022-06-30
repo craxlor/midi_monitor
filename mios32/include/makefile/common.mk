@@ -52,7 +52,7 @@ LDFLAGS += --specs=nano.specs
 AFLAGS += $(A_DEFINES) $(A_INCLUDE) -Wa,-adhlns=$(<:.s=.lst)
 
 # define C flags
-CFLAGS += $(C_DEFINES) $(C_INCLUDE) -Wall -Wno-format -Wno-switch -Wno-strict-aliasing
+CFLAGS += $(C_DEFINES) $(C_INCLUDE) -Wall -Wno-format -Wno-switch -Wno-strict-aliasing --specs=nosys.specs
 
 # add family specific arguments
 ifeq ($(FAMILY),STM32F10x)
