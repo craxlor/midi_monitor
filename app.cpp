@@ -18,7 +18,7 @@
 #include <mios32.h>
 #include <app.h>
 #include <string>
-#include <midipackage.h>
+#include "midipackage.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called after startup to initialize the application
