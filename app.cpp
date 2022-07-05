@@ -66,6 +66,7 @@ extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_pack
 
   MIOS32_MIDI_SendDebugMessage("Port:%02d  Type:%02s  Chn:%d  Note:%02s  Vel:%02d\n",
                                port, package.getType(), package.getChannel(), package.getNote(), package.getVelocity());
+  MIOS32_MIDI_SendDebugMessage("CC:%02s", package.getCCs());
 }
 
 /////////////////////////////////////////////////////////////////////////////

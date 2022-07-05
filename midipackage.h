@@ -30,7 +30,6 @@ class MidiPackage
 
         const char *getNote();
 
-        // TODO missing implementation
         const char *getCCs();
 };
 
