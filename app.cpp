@@ -19,6 +19,7 @@
 #include <app.h>
 #include <string>
 #include "midipackage.h"
+#include "application/application.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called after startup to initialize the application
@@ -35,6 +36,7 @@ extern "C" void APP_Init(void)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_Background(void)
 {
+  Application::getInstance().visualization.draw();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -88,6 +90,17 @@ extern "C" void APP_SRIO_ServiceFinish(void)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 {
+
+  switch (pin) // determine button
+  {
+  case 2:               // encoder button
+    if (pin_value == 0) // has been pressed
+    {
+      Application::getInstance().visualization.changeVisualizationMode();
+    }
+    break;
+  }
+  MIOS32_MIDI_SendDebugMessage("%d", Application::getInstance().visualization.getVisualizationMode());
 }
 
 /////////////////////////////////////////////////////////////////////////////
