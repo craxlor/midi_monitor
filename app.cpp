@@ -20,6 +20,7 @@
 #include <string>
 #include "midipackage.h"
 #include "application/application.h"
+/*TODO add Application::getInstance().visualization.draw() call*/
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called after startup to initialize the application
@@ -36,7 +37,6 @@ extern "C" void APP_Init(void)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_Background(void)
 {
-  Application::getInstance().visualization.draw();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -64,10 +64,7 @@ extern "C" void APP_MIDI_Tick(void)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_package_t midi_package)
 {
-  MidiPackage package(midi_package);
-
-  MIOS32_MIDI_SendDebugMessage("Port:%02d  Type:%02s  Chn:%d  Note:%02s  Vel:%02d\n",
-                               port, package.getType(), package.getChannel(), package.getNote(), package.getVelocity());
+  Application::getInstance().setLastReceivedPackage(midi_package);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -100,7 +97,6 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
     }
     break;
   }
-  MIOS32_MIDI_SendDebugMessage("%d", Application::getInstance().visualization.getVisualizationMode());
 }
 
 /////////////////////////////////////////////////////////////////////////////
