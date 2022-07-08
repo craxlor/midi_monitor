@@ -10,20 +10,26 @@
  */
 
 #include "application/visualization.h"
-#include <mios32.h>
-
-// TODO retrieve midi package from ring buffer in application instance
+#include "application/application.h"
+#include "midipackage.h"
 void Visualization::draw()
 {
+    // last received midi package
+    MidiPackage package(Application::getInstance().getLastReceivedPackage());
+
     switch (visualizationmode)
     {
     case 0:
+        /*TODO implement raw visualization*/
         break;
     case 1:
+        /*TODO implement text visualization*/
         break;
     case 2:
+        /*TODO implement piano visualization*/
         break;
     case 3:
+        /*TODO implement accord visualization*/
         break;
     }
 }
@@ -38,6 +44,7 @@ void Visualization::changeVisualizationMode()
     {
         visualizationmode++;
     }
+    MIOS32_MIDI_SendDebugMessage("Visualizationmode:%s", getVisualizationModeAsString());
 }
 
 int Visualization::getVisualizationMode()
