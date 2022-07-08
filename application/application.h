@@ -12,7 +12,6 @@
 #define APPLICATION_H
 
 #include "application/visualization.h"
-#include "application/circular_buffer.h"
 #include <mios32.h>
 class Application
 {
@@ -20,10 +19,10 @@ private:
     // private constructor
     Application() {}
 
+    mios32_midi_package_t lastReceivedPackage;
+
 public:
     Visualization visualization;
-
-    circular_buffer<mios32_midi_package_t> buffer(10);
 
     static Application &getInstance()
     {
@@ -32,6 +31,9 @@ public:
     }
     Application(Application const &) = delete;
     void operator=(Application const &) = delete;
+
+    void setLastReceivedPackage(mios32_midi_package_t p);
+    mios32_midi_package_t getLastReceivedPackage();
 };
 
 #endif
