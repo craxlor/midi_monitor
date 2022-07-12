@@ -12,10 +12,12 @@
 #include "application/visualization.h"
 #include "application/application.h"
 #include "midipackage.h"
+
 void Visualization::draw()
 {
     // last received midi package
-    MidiPackage package(Application::getInstance().getLastReceivedPackage());
+    mios32_midi_package_t p = Application::getInstance().getLastReceivedPackage();
+    MidiPackage package(p);
 
     switch (visualizationmode)
     {
@@ -36,7 +38,7 @@ void Visualization::draw()
 
 void Visualization::changeVisualizationMode()
 {
-    if (visualizationmode == 3)
+    if (visualizationmode > 2)
     {
         visualizationmode = 0;
     }
