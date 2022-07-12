@@ -19,6 +19,8 @@
 #include <app.h>
 #include <string>
 #include "midipackage.h"
+#include "application/application.h"
+/*TODO add Application::getInstance().visualization.draw() call*/
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called after startup to initialize the application
@@ -62,11 +64,7 @@ extern "C" void APP_MIDI_Tick(void)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_package_t midi_package)
 {
-  MidiPackage package(midi_package);
-
-  MIOS32_MIDI_SendDebugMessage("Port:%02d  Type:%02s  Chn:%d  Note:%02s  Vel:%02d\n",
-                               port, package.getType(), package.getChannel(), package.getNote(), package.getVelocity());
-  MIOS32_MIDI_SendDebugMessage("CC:%02s", package.getCCs());
+  Application::getInstance().setLastReceivedPackage(midi_package);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -89,6 +87,16 @@ extern "C" void APP_SRIO_ServiceFinish(void)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 {
+
+  switch (pin) // determine button
+  {
+  case 2:               // encoder button
+    if (pin_value == 0) // has been pressed
+    {
+      Application::getInstance().visualization.changeVisualizationMode();
+    }
+    break;
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////
