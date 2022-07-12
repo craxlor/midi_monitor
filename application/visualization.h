@@ -8,8 +8,8 @@
  * @copyright Copyright (c) 2022
  *
  */
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef VISUALIZATION_H
+#define VISUALIZATION_H
 
 #include <mios32.h>
 
