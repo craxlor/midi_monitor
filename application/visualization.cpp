@@ -59,7 +59,20 @@ void Visualization::draw()
         /*TODO implement raw visualization*/
         break;
     case 1:
-        /*TODO implement text visualization*/
+        /**
+         * 1st display
+         * midi channel, note on/off, tone, velocity
+         * 2nd display
+         * cc information
+         * 3rd display
+         * raw sysex
+         */
+        MIOS32_LCD_DeviceSet(0);
+        MIOS32_LCD_PrintFormattedString("Channel:%d\nEvent:%s\nNote:%s\nVelocity:%d", package.getChannel(), package.getType(), package.getNote(), package.getVelocity());
+        MIOS32_LCD_DeviceSet(1);
+        MIOS32_LCD_PrintString(package.getCCs());
+        MIOS32_LCD_DeviceSet(2);
+        MIOS32_LCD_PrintFormattedString("Channel:%02x\nEvent:%x\nNote:%02x\nVelocity:%02x", p.chn, p.type, p.note, p.velocity);
         break;
     case 2:
         drawKeyboard(p);
