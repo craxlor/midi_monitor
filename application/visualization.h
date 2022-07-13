@@ -26,6 +26,9 @@ private:
 
 public:
     void draw();
+    void drawKeyboard(mios32_midi_package_t midi_package);
+
+    bool isFlat(int note_value);
 
     void changeVisualizationMode();
 

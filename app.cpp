@@ -65,6 +65,7 @@ extern "C" void APP_MIDI_Tick(void)
 extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_package_t midi_package)
 {
   Application::getInstance().setLastReceivedPackage(midi_package);
+  Application::getInstance().visualization.draw();
 }
 
 /////////////////////////////////////////////////////////////////////////////

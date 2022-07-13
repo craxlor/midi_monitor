@@ -29,10 +29,82 @@ void Visualization::draw()
         break;
     case 2:
         /*TODO implement piano visualization*/
+        drawKeyboard(p);
         break;
     case 3:
         /*TODO implement accord visualization*/
         break;
+    }
+}
+
+void Visualization::drawKeyboard(mios32_midi_package_t midi_package)
+{
+    int value = midi_package.note;
+    int octave;
+
+    u8 byteToDraw;
+    int height;
+    if (isFlat(value)) // black key
+    {
+        height = 15;
+        if (midi_package.type == NoteOn)
+        {
+            byteToDraw = 0x7F;
+        }
+        else
+        {
+            byteToDraw = 0x00;
+        }
+    }
+    else // white key
+    {
+        height = 26;
+        if (midi_package.type == NoteOn)
+        {
+            byteToDraw = 0x00;
+        }
+        else
+        {
+            byteToDraw = 0xFF;
+        }
+    }
+
+    if (value > 23 && value <= 35)
+    {
+        octave = 84;
+    }
+    else if (value > 11)
+    {
+        octave = 42;
+    }
+    else
+    {
+        octave = 0;
+    }
+
+    int pixelColumnIndex = ((value % 12) + 1) * 3 + octave;
+
+    MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
+    MIOS32_LCD_Data(byteToDraw);
+    MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);
+    MIOS32_LCD_Data(byteToDraw);
+    MIOS32_LCD_GCursorSet(pixelColumnIndex, height);
+    MIOS32_LCD_Data(byteToDraw);
+}
+
+bool Visualization::isFlat(int note_value)
+{
+    int value = note_value % 12;
+    switch (value)
+    {
+    case 1:
+    case 3:
+    case 6:
+    case 8:
+    case 10:
+        return true;
+    default:
+        return false;
     }
 }
 
