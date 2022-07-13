@@ -20,7 +20,8 @@
 #include <string>
 #include "midipackage.h"
 #include "application/application.h"
-/*TODO add Application::getInstance().visualization.draw() call*/
+
+#define APP Application::getInstance()
 
 /////////////////////////////////////////////////////////////////////////////
 // This hook is called after startup to initialize the application
@@ -30,6 +31,8 @@
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_Init(void)
 {
+  MIOS32_MIDI_SendDebugString("initialisiere keybaord...");
+  APP.visualization.initKeyboard();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -64,8 +67,13 @@ extern "C" void APP_MIDI_Tick(void)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_package_t midi_package)
 {
-  Application::getInstance().setLastReceivedPackage(midi_package);
-  Application::getInstance().visualization.draw();
+  APP.setLastReceivedPackage(midi_package);
+  APP.visualization.draw();
+
+  //for debugging which packages are being received
+  MidiPackage package(midi_package);
+  MIOS32_MIDI_SendDebugMessage("package content: note %02s, velo %d, cc %s, chan %d, type %s", 
+                                  package.getNote(), package.getVelocity(), package.getCCs(), package.getChannel(), package.getType());
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -94,7 +102,7 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
   case 2:               // encoder button
     if (pin_value == 0) // has been pressed
     {
-      Application::getInstance().visualization.changeVisualizationMode();
+      APP.visualization.changeVisualizationMode();
     }
     break;
   }
