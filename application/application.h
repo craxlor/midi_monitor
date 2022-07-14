@@ -18,7 +18,7 @@ class Application
 private:
     // private constructor
     Application() {}
-
+    
     mios32_midi_package_t lastReceivedPackage;
 
 public:
