@@ -47,7 +47,7 @@ const char *MidiPackage::getType()
     case PitchBend:
         return "PitchBend";
     default:
-        return "event is not defined";
+        return "Event is not defined";
     }
 }
 
@@ -99,7 +99,7 @@ const char *MidiPackage::getNote()
         note = "A#";
         break;
     case 11:
-        note = "A";
+        note = "B";
         break;
     }
 
