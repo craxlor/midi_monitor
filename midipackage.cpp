@@ -56,7 +56,7 @@ const char *MidiPackage::getNote()
     //validate package type
     if (midi_package.type != NoteOn)
     {
-        return nullptr;
+        return "";
     }
     std::string note;
     int value = midi_package.note;
@@ -116,7 +116,7 @@ const char *MidiPackage::getCCs()
     //validate package type
     if (midi_package.type != CC)
     {
-        return nullptr;
+        return "";
     }
     std::string cc_event = std::to_string(midi_package.cc_number) + " = " + std::to_string(midi_package.value);
     return cc_event.c_str();
