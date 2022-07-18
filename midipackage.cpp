@@ -66,40 +66,40 @@ const char *MidiPackage::getNote()
     switch (letter)
     {
     case 0:
-        note = "c";
+        note = "C";
         break;
     case 1:
-        note = "c#";
+        note = "C#";
         break;
     case 2:
-        note = "d";
+        note = "D";
         break;
     case 3:
-        note = "d#";
+        note = "D#";
         break;
     case 4:
-        note = "e";
+        note = "E";
         break;
     case 5:
-        note = "f";
+        note = "F";
         break;
     case 6:
-        note = "f#";
+        note = "F#";
         break;
     case 7:
-        note = "g";
+        note = "G";
         break;
     case 8:
-        note = "g#";
+        note = "G#";
         break;
     case 9:
-        note = "a";
+        note = "A";
         break;
     case 10:
-        note = "a#";
+        note = "A#";
         break;
     case 11:
-        note = "a";
+        note = "A";
         break;
     }
 
