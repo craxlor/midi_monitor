@@ -23,9 +23,14 @@ int MidiPackage::getChannel()
     return midi_package.chn + 1;
 }
 
-int MidiPackage::getVelocity()
+const char *MidiPackage::getVelocity()
 {
-    return midi_package.velocity;
+    // validate package type
+    if (midi_package.type != NoteOn)
+    {
+        return "";
+    }
+    return std::to_string(midi_package.velocity).c_str();
 }
 
 const char *MidiPackage::getType()
@@ -52,8 +57,8 @@ const char *MidiPackage::getType()
 }
 
 const char *MidiPackage::getNote()
-{   
-    //validate package type
+{
+    // validate package type
     if (midi_package.type != NoteOn)
     {
         return "";
@@ -112,8 +117,8 @@ const char *MidiPackage::getNote()
 }
 
 const char *MidiPackage::getCCs()
-{   
-    //validate package type
+{
+    // validate package type
     if (midi_package.type != CC)
     {
         return "";

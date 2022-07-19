@@ -24,7 +24,7 @@ class MidiPackage
         
         int getChannel();
         
-        int getVelocity();
+        const char *getVelocity();
 
         const char *getType();
 
