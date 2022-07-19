@@ -104,7 +104,7 @@ const char *MidiPackage::getNote()
         note = "A#";
         break;
     case 11:
-        note = "A";
+        note = "B";
         break;
     }
 

@@ -67,27 +67,33 @@ void Visualization::draw()
         MIOS32_LCD_DeviceSet(0);
         MIOS32_LCD_Clear();
         MIOS32_LCD_CursorSet(0, 0); // X, Y
+        MIOS32_LCD_PrintFormattedString("Midi-Message-Text");
+        MIOS32_LCD_CursorSet(0, 2); // X, Y
         MIOS32_LCD_PrintFormattedString("Channel: %d", package.getChannel());
-        MIOS32_LCD_CursorSet(1, 1); // X, Y
+        MIOS32_LCD_CursorSet(0, 3); // X, Y
         MIOS32_LCD_PrintFormattedString("Event: %s", package.getType());
-        MIOS32_LCD_CursorSet(2, 2); // X, Y
+        MIOS32_LCD_CursorSet(0, 4); // X, Y
         MIOS32_LCD_PrintFormattedString("Note: %02s", package.getNote());
-        MIOS32_LCD_CursorSet(3, 3); // X, Y
+        MIOS32_LCD_CursorSet(0, 5); // X, Y
         MIOS32_LCD_PrintFormattedString("Velocity: %s", package.getVelocity());
 
         MIOS32_LCD_DeviceSet(1);
+        MIOS32_LCD_CursorSet(0, 0); // X, Y
+        MIOS32_LCD_PrintFormattedString("Midi-CCs");
         MIOS32_LCD_CursorSet(0, 1); // X, Y
-        MIOS32_LCD_PrintFormattedString("CC: %s",package.getCCs());
+        MIOS32_LCD_PrintFormattedString("CC#: %s",package.getCCs());
         
 
         MIOS32_LCD_DeviceSet(2);
         MIOS32_LCD_CursorSet(0, 0); // X, Y
-        MIOS32_LCD_PrintFormattedString("Type: %02x", p.type);
-        MIOS32_LCD_CursorSet(0, 1); // X, Y
-        MIOS32_LCD_PrintFormattedString("Event0: %02x", p.evnt0);
+        MIOS32_LCD_PrintFormattedString("Midi-Message-RAW");
         MIOS32_LCD_CursorSet(0, 2); // X, Y
-        MIOS32_LCD_PrintFormattedString("Event1: %02x", p.evnt1);
+        MIOS32_LCD_PrintFormattedString("Type: %02x", p.type);
         MIOS32_LCD_CursorSet(0, 3); // X, Y
+        MIOS32_LCD_PrintFormattedString("Event0: %02x", p.evnt0);
+        MIOS32_LCD_CursorSet(0, 4); // X, Y
+        MIOS32_LCD_PrintFormattedString("Event1: %02x", p.evnt1);
+        MIOS32_LCD_CursorSet(0, 5); // X, Y
         MIOS32_LCD_PrintFormattedString("Event2: %02x", p.evnt2);
         break;
     case 1:
@@ -155,8 +161,8 @@ void Visualization::drawKeyboard(mios32_midi_package_t midi_package)
     }
 
     int pixelColumnIndex = ((value % 12) + 1) * 3 + octave;
-    MIOS32_MIDI_SendDebugString("zeichen die bytes...");
-    MIOS32_MIDI_SendDebugMessage("column index: %d, zeilenindex: %d, byte: %x ", pixelColumnIndex, height, byteToDraw);
+    MIOS32_MIDI_SendDebugString("draw bytes...");
+    MIOS32_MIDI_SendDebugMessage("column index: %d, row index: %d, byte: %x ", pixelColumnIndex, height, byteToDraw);
     MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
     MIOS32_LCD_Data(byteToDraw);
     MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);
@@ -210,8 +216,8 @@ const char *Visualization::getVisualizationModeAsString()
     case 2:
         return "PIANO";
     case 3:
-        return "ACCORD";
+        return "CHORD";
     default:
-        return "visualizationmode is not defined";
+        return "Visualization-Mode is not defined";
     }
 }
