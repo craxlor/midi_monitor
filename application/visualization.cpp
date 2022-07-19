@@ -56,9 +56,6 @@ void Visualization::draw()
     switch (visualizationmode)
     {
     case 0:
-        /*TODO implement raw visualization*/
-        break;
-    case 1:
         /**
          * 1st display
          * midi channel, note on/off, tone, velocity
@@ -76,7 +73,7 @@ void Visualization::draw()
         MIOS32_LCD_CursorSet(2, 2); // X, Y
         MIOS32_LCD_PrintFormattedString("Note: %02s", package.getNote());
         MIOS32_LCD_CursorSet(3, 3); // X, Y
-        MIOS32_LCD_PrintFormattedString("Velocity: %d", package.getVelocity());
+        MIOS32_LCD_PrintFormattedString("Velocity: %s", package.getVelocity());
 
         MIOS32_LCD_DeviceSet(1);
         MIOS32_LCD_CursorSet(0, 1); // X, Y
@@ -93,10 +90,10 @@ void Visualization::draw()
         MIOS32_LCD_CursorSet(0, 3); // X, Y
         MIOS32_LCD_PrintFormattedString("Event2: %02x", p.evnt2);
         break;
-    case 2:
+    case 1:
         drawKeyboard(p);
         break;
-    case 3:
+    case 2:
         /*TODO implement accord visualization*/
         break;
     }
@@ -186,7 +183,7 @@ bool Visualization::isFlat(int note_value)
 
 void Visualization::changeVisualizationMode()
 {
-    if (visualizationmode > 2)
+    if (visualizationmode > 1)
     {
         visualizationmode = 0;
     }

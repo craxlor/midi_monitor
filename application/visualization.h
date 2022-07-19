@@ -17,10 +17,9 @@ class Visualization
 {
 private:
     /**
-        RAW = 0,
-        TEXT = 1,
-        PIANO = 2,
-        ACCORD = 3
+        TEXT = 0,
+        PIANO = 1,
+        ACCORD = 2
     */
     int visualizationmode;
 
