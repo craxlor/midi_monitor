@@ -2,15 +2,16 @@
 #define KEYBOARD_H
 
 #include <mios32.h>
+#include <notestack.h>
 
 class Keyboard
 {
 private:
     static u8 piano_bitmap[];
-
+    static void drawNote(u8 note, u8 type);
 public:
     static void drawKeyboard();
-    static void drawKeyPress(mios32_midi_package_t midi_package);
+    static void drawNotestack(notestack_t notestack);
 };
 
 #endif

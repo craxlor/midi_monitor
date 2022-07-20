@@ -35,27 +35,15 @@ u8 Keyboard::piano_bitmap[] = { // 126x32px
     0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00, 0x7f, 0x7f, 0x7f, 0x7f,
     0x7f, 0x00, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00};
 
-void Keyboard::drawKeyboard()
+void Keyboard::drawNote(u8 note, u8 type)
 {
-    mios32_lcd_bitmap_t bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 32, 126, 1);
-    MIOS32_LCD_DeviceSet(1);
-    MIOS32_LCD_CursorSet(0, 0);
-    MIOS32_LCD_BitmapPrint(bitmap);
-}
-
-void Keyboard::drawKeyPress(mios32_midi_package_t midi_package)
-{
-    MIOS32_LCD_DeviceSet(1);
-    MIOS32_MIDI_SendDebugString("updating keyboard");
-    int value = midi_package.note;
     int octave;
-
     u8 byteToDraw;
     int height;
-    if (MidiHelper::isFlat(value)) // black key
+    if (MidiHelper::isFlat(note)) // black key
     {
         height = 15;
-        if (midi_package.type == NoteOn)
+        if (type == NoteOn)
         {
             byteToDraw = 0x7F;
         }
@@ -67,7 +55,7 @@ void Keyboard::drawKeyPress(mios32_midi_package_t midi_package)
     else // white key
     {
         height = 26;
-        if (midi_package.type == NoteOn)
+        if (type == NoteOn)
         {
             byteToDraw = 0x00;
         }
@@ -77,11 +65,11 @@ void Keyboard::drawKeyPress(mios32_midi_package_t midi_package)
         }
     }
 
-    if (value > 23 && value <= 35)
+    if (note > 23 && note <= 35)
     {
         octave = 84;
     }
-    else if (value > 11)
+    else if (note > 11)
     {
         octave = 42;
     }
@@ -90,7 +78,7 @@ void Keyboard::drawKeyPress(mios32_midi_package_t midi_package)
         octave = 0;
     }
 
-    int pixelColumnIndex = ((value % 12) + 1) * 3 + octave;
+    int pixelColumnIndex = ((note % 12) + 1) * 3 + octave;
     MIOS32_MIDI_SendDebugString("draw bytes...");
     MIOS32_MIDI_SendDebugMessage("column index: %d, row index: %d, byte: %x ", pixelColumnIndex, height, byteToDraw);
     MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
@@ -99,4 +87,22 @@ void Keyboard::drawKeyPress(mios32_midi_package_t midi_package)
     MIOS32_LCD_Data(byteToDraw);
     MIOS32_LCD_GCursorSet(pixelColumnIndex, height);
     MIOS32_LCD_Data(byteToDraw);
+}
+
+void Keyboard::drawKeyboard()
+{
+    mios32_lcd_bitmap_t bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 32, 126, 1);
+    MIOS32_LCD_DeviceSet(1);
+    MIOS32_LCD_CursorSet(0, 0);
+    MIOS32_LCD_BitmapPrint(bitmap);
+}
+
+void Keyboard::drawNotestack(notestack_t notestack)
+{
+    for (size_t i = 0; i < notestack.len; i++)
+    {
+        if (notestack.note_items[i].depressed)
+            continue;
+        Keyboard::drawNote(notestack.note_items[i].note, NoteOn);
+    }
 }

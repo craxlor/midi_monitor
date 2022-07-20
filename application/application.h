@@ -12,14 +12,14 @@ private:
     // private constructor
     Application();
     /**
-            TEXT = 0,
-            PIANO = 1,
-            ACCORD = 2
+            TEXT = true,
+            PIANO = false,
         */
-    int visualizationmode;
+    bool visualizationmode = true;
 
+    int selectedChannel = 0;
     mios32_midi_package_t lastReceivedPackage;
-    notestack_t notestack;
+    notestack_t notestack[16];
     notestack_item_t notestack_items[NOTESTACK_SIZE];
 
 public:
@@ -32,12 +32,12 @@ public:
     void operator=(Application const &) = delete;
 
     void setLastReceivedPackage(mios32_midi_package_t p);
-    mios32_midi_package_t getLastReceivedPackage();
 
     void changeVisualizationMode();
 
-    int getVisualizationMode();
     const char *getVisualizationModeAsString();
+
+    void changeSelectedChannel();
 
     void draw();
 

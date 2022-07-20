@@ -5,78 +5,75 @@
 Application::Application()
 {
     MIOS32_MIDI_SendDebugString("called application constructor");
-    NOTESTACK_Init(&notestack, NOTESTACK_MODE_PUSH_TOP, &notestack_items[0], NOTESTACK_SIZE);
+
+    // notestack init
+    for (size_t i = 0; i < 16; i++)
+    {
+        notestack_item_t nodestackItems[NOTESTACK_SIZE];
+        NOTESTACK_Init(&notestack[i], NOTESTACK_MODE_PUSH_TOP, nodestackItems, NOTESTACK_SIZE);
+    }
+
+    // NOTESTACK_Init(, NOTESTACK_MODE_PUSH_TOP, &notestack_items[0], NOTESTACK_SIZE);
 }
 
+
+//combination of channel switch and holding notes in mios studio seems to mess with values
+    //could also be an issue with higher notes, than our display can show. ??? INVESTIGATE!
 void Application::setLastReceivedPackage(mios32_midi_package_t p)
 {
     if (p.type == NoteOn)
     {
-        NOTESTACK_Push(&notestack, p.note, p.velocity);
+        NOTESTACK_Push(&notestack[p.chn], p.note, p.velocity);
+    }
+    if (p.type == NoteOff)
+    {
+        NOTESTACK_Pop(&notestack[p.chn], p.note);
     }
     lastReceivedPackage = p;
 }
 
-mios32_midi_package_t Application::getLastReceivedPackage()
-{
-    return lastReceivedPackage;
-}
-
 void Application::changeVisualizationMode()
 {
-    if (visualizationmode > 1)
-    {
-        visualizationmode = 0;
-    }
-    else
-    {
-        visualizationmode++;
-    }
-    MIOS32_MIDI_SendDebugMessage("Visualizationmode:%s", getVisualizationModeAsString());
+    visualizationmode = !visualizationmode;
+    MIOS32_MIDI_SendDebugMessage("Visualizationmode: %s", getVisualizationModeAsString());
 }
 
-int Application::getVisualizationMode()
+void Application::changeSelectedChannel()
 {
-    return visualizationmode;
+    if (selectedChannel > 15)
+        selectedChannel = 0;
+    else
+        selectedChannel++;
+    MIOS32_MIDI_SendDebugMessage("Channel: %d", (selectedChannel + 1));
 }
 
 const char *Application::getVisualizationModeAsString()
 {
-    switch (visualizationmode)
-    {
-    case 0:
+    if (visualizationmode)
         return "TEXT";
-    case 1:
-        return "PIANO";
-    case 2:
-        return "CHORD";
-    default:
-        return "Visualization-Mode is not defined";
-    }
+    else
+        return "KEYBOARD";
 }
 
 void Application::draw()
 {
-    // last received midi package
-    mios32_midi_package_t package = Application::getInstance().getLastReceivedPackage();
     // clear all displays
     MIOS32_LCD_Clear();
     switch (visualizationmode)
     {
     case 0:
-        Text::draw(package);
+        Text::draw(lastReceivedPackage);
         break;
     case 1:
         Keyboard::drawKeyboard();
-        Keyboard::drawKeyPress(package);
+        Keyboard::drawNotestack(notestack[selectedChannel]);
         break;
-    case 2:
-        /*TODO implement accord visualization*/
-        break;
+    default:
+        Text::draw(lastReceivedPackage);
     }
 }
 
 notestack_t *Application::getNotestack()
 {
-    return &notestack;
+    return &notestack[selectedChannel];
 }

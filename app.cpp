@@ -69,12 +69,12 @@ extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_pack
   APP.draw();
   MIOS32_MIDI_SendDebugMessage("note: %s", MidiHelper::getNote(midi_package.note)); // works
   // for debugging which packages are being received
-  MIOS32_MIDI_SendDebugMessage("type: %s chn: %d note: %s velo: %d cc: %s",
-                               MidiHelper::getType(midi_package.type),
-                               MidiHelper::getChannel(midi_package.chn),
-                               MidiHelper::getNote(midi_package.note), // works not
-                               midi_package.velocity,
-                               MidiHelper::getCCs(midi_package.cc_number, midi_package.value));
+  // MIOS32_MIDI_SendDebugMessage("type: %s chn: %d note: %s velo: %d cc: %s",
+  //                              MidiHelper::getType(midi_package.type),
+  //                              MidiHelper::getChannel(midi_package.chn),
+  //                              MidiHelper::getNote(midi_package.note), // works not
+  //                              midi_package.velocity,
+  //                              MidiHelper::getCCs(midi_package.cc_number, midi_package.value));
   NOTESTACK_SendDebugMessage(APP.getNotestack());
 }
 
@@ -98,6 +98,8 @@ extern "C" void APP_SRIO_ServiceFinish(void)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 {
+  if (pin_value == 0)
+    MIOS32_MIDI_SendDebugMessage("pin: %d", pin);
 
   switch (pin) // determine button
   {
@@ -105,10 +107,16 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
     if (pin_value == 0) // has been pressed
     {
       APP.changeVisualizationMode();
-      APP.draw();
+    }
+    break;
+  case 3:
+    if (pin_value == 0) // has been pressed
+    {
+      APP.changeSelectedChannel();
     }
     break;
   }
+  APP.draw();
 }
 
 /////////////////////////////////////////////////////////////////////////////
