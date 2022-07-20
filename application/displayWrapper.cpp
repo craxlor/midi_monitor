@@ -1,14 +1,3 @@
-/**
- * @file display.cpp
- * @author your name (you@domain.com)
- * @brief
- * @version 0.1
- * @date 2022-07-14
- *
- * @copyright Copyright (c) 2022
- *
- */
-
 #include "application/displayWrapper.h"
 
 void DisplayWrapper::init(int displayCount, int heightPixelsPerDisplay, int widthPixelsPerDisplay)

@@ -1,13 +1,3 @@
-/**
- * @file application.h
- * @author Arnaud Kalthoff
- * @brief https://stackoverflow.com/questions/1008019/c-singleton-design-pattern
- * @version 0.1
- * @date 2022-06-20
- *
- * @copyright Copyright (c) 2022
- *
- */
 #ifndef APPLICATION_H
 #define APPLICATION_H
 

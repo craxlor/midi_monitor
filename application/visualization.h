@@ -1,13 +1,3 @@
-/**
- * @file visualization.h
- * @author Arnaud Kalthoff
- * @brief
- * @version 0.1
- * @date 2022-07-06
- *
- * @copyright Copyright (c) 2022
- *
- */
 #ifndef VISUALIZATION_H
 #define VISUALIZATION_H
 
