@@ -2,6 +2,12 @@
 #include "visualization/text.h"
 #include "visualization/keyboard.h"
 
+Application::Application()
+{
+    MIOS32_MIDI_SendDebugString("called application constructor");
+    NOTESTACK_Init(&notestack, NOTESTACK_MODE_PUSH_TOP, &notestack_items[0], NOTESTACK_SIZE);
+}
+
 void Application::setLastReceivedPackage(mios32_midi_package_t p)
 {
     lastReceivedPackage = p;
