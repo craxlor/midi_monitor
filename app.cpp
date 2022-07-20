@@ -18,7 +18,7 @@
 #include <mios32.h>
 #include <app.h>
 #include <string>
-#include "midipackage.h"
+#include "midihelper/midihelper.h"
 #include "application/application.h"
 
 #define APP Application::getInstance()
@@ -31,8 +31,6 @@
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_Init(void)
 {
-  MIOS32_MIDI_SendDebugString("initialisiere keybaord...");
-  APP.visualization.initKeyboard();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -68,12 +66,15 @@ extern "C" void APP_MIDI_Tick(void)
 extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_package_t midi_package)
 {
   APP.setLastReceivedPackage(midi_package);
-  APP.visualization.draw();
-
+  APP.draw();
+  MIOS32_MIDI_SendDebugMessage("note: %s", MidiHelper::getNote(midi_package.note)); // works
   // for debugging which packages are being received
-  MidiPackage package(midi_package);
-  MIOS32_MIDI_SendDebugMessage("package content: note %02s, velo %d, cc %s, chn %d, type %s",
-                               package.getNote(), package.getVelocity(), package.getCCs(), package.getChannel(), package.getType());
+  MIOS32_MIDI_SendDebugMessage("type: %s chn: %d note: %s velo: %d cc: %s",
+                               MidiHelper::getType(midi_package.type),
+                               MidiHelper::getChannel(midi_package.chn),
+                               MidiHelper::getNote(midi_package.note), // works not
+                               midi_package.velocity,
+                               MidiHelper::getCCs(midi_package.cc_number, midi_package.value));
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -102,7 +103,8 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
   case 2:               // encoder button
     if (pin_value == 0) // has been pressed
     {
-      APP.visualization.changeVisualizationMode();
+      APP.changeVisualizationMode();
+      APP.draw();
     }
     break;
   }
