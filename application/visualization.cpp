@@ -53,6 +53,11 @@ void Visualization::draw()
     mios32_midi_package_t p = Application::getInstance().getLastReceivedPackage();
     MidiPackage package(p);
 
+    MIOS32_LCD_Clear(); // clear all displays
+
+    
+    const char *prefix1 = "value1";
+    const char *prefix2 = "value2";
     switch (visualizationmode)
     {
     case 0:
@@ -64,27 +69,40 @@ void Visualization::draw()
          * 3rd display
          * raw sysex
          */
+        
+        // display 1
         MIOS32_LCD_DeviceSet(0);
-        MIOS32_LCD_Clear();
+        switch (p.type)
+        {
+        case NoteOn:
+            prefix1 = "Note";
+            prefix2 = "Velocity";
+            break;
+        case CC:
+            prefix1 = "CC#";
+            prefix2 = "CC value#";
+            break;
+        case PitchBend:
+            prefix1 = "pitchbend";
+            prefix2 = "value";
+            break;
+        }
         MIOS32_LCD_CursorSet(0, 0); // X, Y
         MIOS32_LCD_PrintFormattedString("Midi-Message-Text");
         MIOS32_LCD_CursorSet(0, 2); // X, Y
         MIOS32_LCD_PrintFormattedString("Channel: %d", package.getChannel());
         MIOS32_LCD_CursorSet(0, 3); // X, Y
-        MIOS32_LCD_PrintFormattedString("Event: %s", package.getType());
+        MIOS32_LCD_PrintFormattedString("Type: %s", package.getType());
         MIOS32_LCD_CursorSet(0, 4); // X, Y
-        MIOS32_LCD_PrintFormattedString("Note: %02s", package.getNote());
+        if (p.type == NoteOn)
+            MIOS32_LCD_PrintFormattedString("%s: %s", prefix1, package.getNote());
+        else
+            MIOS32_LCD_PrintFormattedString("%s: %d", prefix1, p.value1);
         MIOS32_LCD_CursorSet(0, 5); // X, Y
-        MIOS32_LCD_PrintFormattedString("Velocity: %s", package.getVelocity());
+        MIOS32_LCD_PrintFormattedString("%s: %d", prefix2, p.value2);
 
-        MIOS32_LCD_DeviceSet(1);
-        MIOS32_LCD_CursorSet(0, 0); // X, Y
-        MIOS32_LCD_PrintFormattedString("Midi-CCs");
-        MIOS32_LCD_CursorSet(0, 1); // X, Y
-        MIOS32_LCD_PrintFormattedString("CC#: %s",package.getCCs());
-        
-
-        MIOS32_LCD_DeviceSet(2);
+        // display 3
+        MIOS32_LCD_DeviceSet(3);
         MIOS32_LCD_CursorSet(0, 0); // X, Y
         MIOS32_LCD_PrintFormattedString("Midi-Message-RAW");
         MIOS32_LCD_CursorSet(0, 2); // X, Y
@@ -210,12 +228,10 @@ const char *Visualization::getVisualizationModeAsString()
     switch (visualizationmode)
     {
     case 0:
-        return "RAW";
-    case 1:
         return "TEXT";
-    case 2:
+    case 1:
         return "PIANO";
-    case 3:
+    case 2:
         return "CHORD";
     default:
         return "Visualization-Mode is not defined";

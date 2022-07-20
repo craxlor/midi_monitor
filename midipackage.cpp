@@ -23,14 +23,9 @@ int MidiPackage::getChannel()
     return midi_package.chn + 1;
 }
 
-const char *MidiPackage::getVelocity()
+int MidiPackage::getVelocity()
 {
-    // validate package type
-    if (midi_package.type != NoteOn)
-    {
-        return "";
-    }
-    return std::to_string(midi_package.velocity).c_str();
+    return midi_package.velocity;
 }
 
 const char *MidiPackage::getType()
@@ -52,17 +47,12 @@ const char *MidiPackage::getType()
     case PitchBend:
         return "PitchBend";
     default:
-        return "event is not defined";
+        return "unknown";
     }
 }
 
 const char *MidiPackage::getNote()
 {
-    // validate package type
-    if (midi_package.type != NoteOn)
-    {
-        return "";
-    }
     std::string note;
     int value = midi_package.note;
     int letter = value % 12;
@@ -118,11 +108,6 @@ const char *MidiPackage::getNote()
 
 const char *MidiPackage::getCCs()
 {
-    // validate package type
-    if (midi_package.type != CC)
-    {
-        return "";
-    }
     std::string cc_event = std::to_string(midi_package.cc_number) + " = " + std::to_string(midi_package.value);
     return cc_event.c_str();
 }

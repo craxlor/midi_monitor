@@ -72,7 +72,7 @@ extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_pack
 
   // for debugging which packages are being received
   MidiPackage package(midi_package);
-  MIOS32_MIDI_SendDebugMessage("package content: note %s, velo %s, cc %s, chan %d, type %s",
+  MIOS32_MIDI_SendDebugMessage("package content: note %02s, velo %d, cc %s, chn %d, type %s",
                                package.getNote(), package.getVelocity(), package.getCCs(), package.getChannel(), package.getType());
 }
 

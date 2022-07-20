@@ -16,21 +16,21 @@
 
 class MidiPackage
 {
-    private:
-        mios32_midi_package_t midi_package;
+private:
+    mios32_midi_package_t midi_package;
 
-    public:
-        MidiPackage(mios32_midi_package_t package);
-        
-        int getChannel();
-        
-        const char *getVelocity();
+public:
+    MidiPackage(mios32_midi_package_t package);
 
-        const char *getType();
+    int getChannel();
 
-        const char *getNote();
+    int getVelocity();
 
-        const char *getCCs();
+    const char *getType();
+
+    const char *getNote();
+
+    const char *getCCs();
 };
 
 #endif
