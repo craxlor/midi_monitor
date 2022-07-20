@@ -10,6 +10,10 @@ Application::Application()
 
 void Application::setLastReceivedPackage(mios32_midi_package_t p)
 {
+    if (p.type == NoteOn)
+    {
+        NOTESTACK_Push(&notestack, p.note, p.velocity);
+    }
     lastReceivedPackage = p;
 }
 
@@ -70,4 +74,9 @@ void Application::draw()
         /*TODO implement accord visualization*/
         break;
     }
+}
+
+notestack_t *Application::getNotestack()
+{
+    return &notestack;
 }

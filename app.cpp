@@ -75,6 +75,7 @@ extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_pack
                                MidiHelper::getNote(midi_package.note), // works not
                                midi_package.velocity,
                                MidiHelper::getCCs(midi_package.cc_number, midi_package.value));
+  NOTESTACK_SendDebugMessage(APP.getNotestack());
 }
 
 /////////////////////////////////////////////////////////////////////////////

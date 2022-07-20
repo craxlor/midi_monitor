@@ -40,6 +40,8 @@ public:
     const char *getVisualizationModeAsString();
 
     void draw();
+
+    notestack_t *getNotestack();
 };
 
 #endif
