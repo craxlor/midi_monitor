@@ -35,74 +35,87 @@ u8 Keyboard::piano_bitmap[] = { // 126x32px
     0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00, 0x7f, 0x7f, 0x7f, 0x7f,
     0x7f, 0x00, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00};
 
-void Keyboard::drawNote(u8 note, u8 type)
-{
-    int octave;
-    u8 byteToDraw;
-    int height;
-    if (MidiHelper::isFlat(note)) // black key
-    {
-        height = 15;
-        if (type == NoteOn)
-        {
-            byteToDraw = 0x7F;
-        }
-        else
-        {
-            byteToDraw = 0x00;
-        }
-    }
-    else // white key
-    {
-        height = 26;
-        if (type == NoteOn)
-        {
-            byteToDraw = 0x00;
-        }
-        else
-        {
-            byteToDraw = 0x7F;
-        }
-    }
-
-    if (note > 23 && note <= 35)
-    {
-        octave = 84;
-    }
-    else if (note > 11)
-    {
-        octave = 42;
-    }
-    else
-    {
-        octave = 0;
-    }
-
-    int pixelColumnIndex = ((note % 12) + 1) * 3 + octave;
-    MIOS32_MIDI_SendDebugString("draw bytes...");
-    MIOS32_MIDI_SendDebugMessage("column index: %d, row index: %d, byte: %x ", pixelColumnIndex, height, byteToDraw);
-    MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
-    MIOS32_LCD_Data(byteToDraw);
-    MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);
-    MIOS32_LCD_Data(byteToDraw);
-    MIOS32_LCD_GCursorSet(pixelColumnIndex, height);
-    MIOS32_LCD_Data(byteToDraw);
-}
+mios32_lcd_bitmap_t Keyboard::bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 32, 126, 1);
 
 void Keyboard::drawKeyboard()
 {
-    mios32_lcd_bitmap_t bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 32, 126, 1);
-    MIOS32_LCD_DeviceSet(1);
-    MIOS32_LCD_CursorSet(0, 0);
-    MIOS32_LCD_BitmapPrint(bitmap);
+    // draw keyboard on first 4 displays
+    for (size_t i = 0; i < 4; i++)
+    {
+        MIOS32_LCD_DeviceSet(i);
+        MIOS32_LCD_CursorSet(0, 0);
+        MIOS32_LCD_BitmapPrint(bitmap);
+    }
 }
 
 void Keyboard::drawNotestack(notestack_t notestack)
 {
+    int note;
     for (size_t i = 0; i < notestack.len; i++)
     {
+        // check if the note is pressed
         if (notestack.note_items[i].depressed)
             continue;
-        Keyboard::drawNote(notestack.note_items[i].note, NoteOn);
+
+        // select correct display
+        // note = notestack.note_items[i].note;
+        // if (note < 34)
+        // {
+        //     MIOS32_LCD_DeviceSet(0);
+        //     note -= 33;
+        // }
+        // else if (note < 33 * 2 + 1)
+        // {
+        //     MIOS32_LCD_DeviceSet(1);
+        //     note -= 33 * 2;
+        // }
+        // else if (note < 33 * 3 + 1)
+        // {
+        //     MIOS32_LCD_DeviceSet(2);
+        //     note -= 33 * 3;
+        // }
+        // else if (note < 33 * 4 + 1)
+        // {
+        //     MIOS32_LCD_DeviceSet(3);
+        //     note -= 33 * 4;
+        // }
+
+        // start of drawNote() sourcecode
+        int octave;
+        u8 byteToDraw;
+        int height;
+        // determine if note is a black or white key
+        if (MidiHelper::isFlat(note)) // black key
+        {
+            height = 15;
+            byteToDraw = 0x7F;
+        }
+        else // white key
+        {
+            height = 26;
+            byteToDraw = 0x00;
+        }
+
+        //???
+        if (note > 23 && note <= 35)
+        {
+            octave = 84;
+        }
+        else if (note > 11)
+        {
+            octave = 42;
+        }
+        else
+        {
+            octave = 0;
+        }
+        // draw
+        int pixelColumnIndex = ((note % 12) + 1) * 3 + octave;
+        MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
+        MIOS32_LCD_Data(byteToDraw);
+        MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);
+        MIOS32_LCD_Data(byteToDraw);
+        MIOS32_LCD_GCursorSet(pixelColumnIndex, height);
+        MIOS32_LCD_Data(byteToDraw);
     }
 }
