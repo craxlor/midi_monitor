@@ -18,7 +18,7 @@ LCD       =     $(MIOS32_LCD)
 THUMB_SOURCE    = 
 
 # add C++ files here
-THUMB_CPP_SOURCE = app.cpp midipackage.cpp application/application.cpp application/visualization.cpp
+THUMB_CPP_SOURCE = app.cpp midihelper/midihelper.cpp application/application.cpp visualization/keyboard.cpp visualization/text.cpp
 
 
 # (following source stubs not relevant for Cortex M3 derivatives)
@@ -54,6 +54,8 @@ include $(MIOS32_PATH)/programming_models/traditional/programming_model.mk
 
 # application specific LCD driver (selected via makefile variable)
 include $(MIOS32_PATH)/modules/app_lcd/$(LCD)/app_lcd.mk
+# notestack module
+include $(MIOS32_PATH)/modules/notestack/notestack.mk
 
 # common make rules
 # Please keep this include statement at the end of this Makefile. Add new modules above.

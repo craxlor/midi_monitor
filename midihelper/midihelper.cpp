@@ -1,36 +1,15 @@
-/**
- * @file midipackage.h
- * @author Arnaud Kalthoff
- * @brief
- * @version 0.1
- * @date 2022-06-28
- *
- * @copyright Copyright (c) 2022
- *
- */
-
 #include <mios32.h>
 #include <string>
-#include "midipackage.h"
+#include "midihelper.h"
 
-MidiPackage::MidiPackage(mios32_midi_package_t package)
+int MidiHelper::getChannel(u8 chn)
 {
-    midi_package = package;
+    return chn + 1;
 }
 
-int MidiPackage::getChannel()
+const char *MidiHelper::getType(u8 type)
 {
-    return midi_package.chn + 1;
-}
-
-int MidiPackage::getVelocity()
-{
-    return midi_package.velocity;
-}
-
-const char *MidiPackage::getType()
-{
-    switch (midi_package.type)
+    switch (type)
     {
     case NoteOff:
         return "NoteOff";
@@ -47,54 +26,53 @@ const char *MidiPackage::getType()
     case PitchBend:
         return "PitchBend";
     default:
-        return "event is not defined";
+        return "unknown";
     }
 }
 
-const char *MidiPackage::getNote()
+const char *MidiHelper::getNote(u8 value)
 {
-    std::string note;
-    int value = midi_package.note;
     int letter = value % 12;
+    std::string note;
     // black notes  1 3   6 8 10    c# d#   f# g# a#
     // white notes 0 2 4 5 7 9  11 c  d  e f  g  a  b
     switch (letter)
     {
     case 0:
-        note = "c";
+        note = "C";
         break;
     case 1:
-        note = "c#";
+        note = "C#";
         break;
     case 2:
-        note = "d";
+        note = "D";
         break;
     case 3:
-        note = "d#";
+        note = "D#";
         break;
     case 4:
-        note = "e";
+        note = "E";
         break;
     case 5:
-        note = "f";
+        note = "F";
         break;
     case 6:
-        note = "f#";
+        note = "F#";
         break;
     case 7:
-        note = "g";
+        note = "G";
         break;
     case 8:
-        note = "g#";
+        note = "G#";
         break;
     case 9:
-        note = "a";
+        note = "A";
         break;
     case 10:
-        note = "a#";
+        note = "A#";
         break;
     case 11:
-        note = "a";
+        note = "B";
         break;
     }
 
@@ -106,8 +84,24 @@ const char *MidiPackage::getNote()
     return note.c_str();
 }
 
-const char *MidiPackage::getCCs()
+const char *MidiHelper::getCCs(u8 cc_number, u8 value)
 {
-    std::string cc_event = std::to_string(midi_package.cc_number) + " = " + std::to_string(midi_package.value);
+    std::string cc_event = std::to_string(cc_number) + " = " + std::to_string(value);
     return cc_event.c_str();
+}
+
+bool MidiHelper::isFlat(int note_value)
+{
+    int value = note_value % 12;
+    switch (value)
+    {
+    case 1:
+    case 3:
+    case 6:
+    case 8:
+    case 10:
+        return true;
+    default:
+        return false;
+    }
 }
