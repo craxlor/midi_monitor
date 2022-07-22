@@ -16,9 +16,8 @@ Application::Application()
     // NOTESTACK_Init(, NOTESTACK_MODE_PUSH_TOP, &notestack_items[0], NOTESTACK_SIZE);
 }
 
-
-//combination of channel switch and holding notes in mios studio seems to mess with values
-    //could also be an issue with higher notes, than our display can show. ??? INVESTIGATE!
+// combination of channel switch and holding notes in mios studio seems to mess with values
+// could also be an issue with higher notes, than our display can show. ??? INVESTIGATE!
 void Application::setLastReceivedPackage(mios32_midi_package_t p)
 {
     if (p.type == NoteOn)
@@ -59,17 +58,12 @@ void Application::draw()
 {
     // clear all displays
     MIOS32_LCD_Clear();
-    switch (visualizationmode)
-    {
-    case 0:
+    if (visualizationmode)
         Text::draw(lastReceivedPackage);
-        break;
-    case 1:
+    else
+    {
         Keyboard::drawKeyboard();
         Keyboard::drawNotestack(notestack[selectedChannel]);
-        break;
-    default:
-        Text::draw(lastReceivedPackage);
     }
 }
 
