@@ -6,7 +6,6 @@ void Text::draw(mios32_midi_package_t package)
 {
     const char *prefix1 = "value1";
     const char *prefix2 = "value2";
-    u16 pitchbendValue = 0;
     /**
      * 1st display
      * pretty print
@@ -29,19 +28,14 @@ void Text::draw(mios32_midi_package_t package)
         prefix2 = "value";
         break;
     case PitchBend:
-        prefix1 = "value";
-        prefix2 = nullptr;
-        pitchbendValue = ((package.value2 << 7) | (package.value1 & 0x7f)) - 8192; // calculate pitchbend value
-        break;
     case Aftertouch:
+    case ProgramChange:
         prefix1 = "value";
         prefix2 = nullptr;
         break;
     case PolyPressure:
         prefix1 = "Note";
         prefix2 = "value";
-        break;
-    case ProgramChange:
         break;
     }
     MIOS32_LCD_CursorSet(0, 0); // X, Y
@@ -55,7 +49,13 @@ void Text::draw(mios32_midi_package_t package)
     if (prefix1 == std::string("Note"))
         MIOS32_MIDI_SendDebugMessage("%s: %s", prefix1, MidiHelper::getNote(package.note));
     else if (package.type == PitchBend)
-        MIOS32_MIDI_SendDebugMessage("%s: %d", prefix1, pitchbendValue);
+    {
+        MIOS32_MIDI_SendDebugMessage("%s: %d", prefix1, MidiHelper::getPitchBend(package.value1, package.value2));
+    }
+    else if (package.type == ProgramChange)
+    {
+        MIOS32_MIDI_SendDebugMessage("%s: %d", prefix1, MidiHelper::getProgramChange(package.value1));
+    }
     else
         MIOS32_MIDI_SendDebugMessage("%s: %d", prefix1, package.value1);
 
