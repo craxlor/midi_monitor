@@ -103,13 +103,13 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 
   switch (pin) // determine button
   {
-  case 2:               // encoder button
+  case 16:              // encoder button
     if (pin_value == 0) // has been pressed
     {
       APP.changeVisualizationMode();
     }
     break;
-  case 3:
+  case 17:
     if (pin_value == 0) // has been pressed
     {
       APP.changeSelectedChannel();

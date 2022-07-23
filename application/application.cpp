@@ -36,7 +36,7 @@ void Application::setLastReceivedPackage(mios32_midi_package_t p)
 void Application::changeVisualizationMode()
 {
     visualizationmode = !visualizationmode;
-    MIOS32_MIDI_SendDebugMessage("Visualizationmode: %s", getVisualizationModeAsString());
+    MIOS32_MIDI_SendDebugMessage("visualizationmode: %s", getVisualizationModeAsString());
 }
 
 void Application::changeSelectedChannel()
@@ -45,7 +45,7 @@ void Application::changeSelectedChannel()
         selectedChannel = 0;
     else
         selectedChannel++;
-    MIOS32_MIDI_SendDebugMessage("Channel: %d", (selectedChannel + 1));
+    MIOS32_MIDI_SendDebugMessage("channel: %d", (selectedChannel + 1));
 }
 
 const char *Application::getVisualizationModeAsString()
@@ -67,6 +67,13 @@ void Application::draw()
         Keyboard::drawKeyboard();
         Keyboard::drawNotestack(notestack[selectedChannel]);
     }
+    // show selected channel on screen
+    MIOS32_LCD_DeviceSet(0);
+    MIOS32_LCD_CursorSet(0, 6); // X, Y
+    if (selectedChannel > 15)
+        MIOS32_LCD_PrintString("selected channel: all");
+    else
+        MIOS32_LCD_PrintFormattedString("selected channel: %d", (selectedChannel + 1));
 }
 
 notestack_t *Application::getNotestack()
