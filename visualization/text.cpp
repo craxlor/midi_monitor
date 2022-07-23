@@ -39,30 +39,30 @@ void Text::draw(mios32_midi_package_t package)
         break;
     }
     MIOS32_LCD_CursorSet(0, 0); // X, Y
-    MIOS32_MIDI_SendDebugString("Midi-Message-Text");
+    MIOS32_LCD_PrintString("Midi-Message-Text");
     MIOS32_LCD_CursorSet(0, 2); // X, Y
-    MIOS32_MIDI_SendDebugMessage("Channel: %d", MidiHelper::getChannel(package.chn));
+    MIOS32_LCD_PrintFormattedString("Channel: %d", MidiHelper::getChannel(package.chn));
     MIOS32_LCD_CursorSet(0, 3); // X, Y
-    MIOS32_MIDI_SendDebugMessage("Type: %s", MidiHelper::getType(package.type));
+    MIOS32_LCD_PrintFormattedString("Type: %s", MidiHelper::getType(package.type));
     MIOS32_LCD_CursorSet(0, 4); // X, Y
 
     if (prefix1 == std::string("Note"))
-        MIOS32_MIDI_SendDebugMessage("%s: %s", prefix1, MidiHelper::getNote(package.note));
+        MIOS32_LCD_PrintFormattedString("%s: %s", prefix1, MidiHelper::getNote(package.note));
     else if (package.type == PitchBend)
     {
-        MIOS32_MIDI_SendDebugMessage("%s: %d", prefix1, MidiHelper::getPitchBend(package.value1, package.value2));
+        MIOS32_LCD_PrintFormattedString("%s: %d", prefix1, MidiHelper::getPitchBend(package.value1, package.value2));
     }
     else if (package.type == ProgramChange)
     {
-        MIOS32_MIDI_SendDebugMessage("%s: %d", prefix1, MidiHelper::getProgramChange(package.value1));
+        MIOS32_LCD_PrintFormattedString("%s: %d", prefix1, MidiHelper::getProgramChange(package.value1));
     }
     else
-        MIOS32_MIDI_SendDebugMessage("%s: %d", prefix1, package.value1);
+        MIOS32_LCD_PrintFormattedString("%s: %d", prefix1, package.value1);
 
     if (prefix2 != nullptr)
     {
         MIOS32_LCD_CursorSet(0, 5); // X, Y
-        MIOS32_MIDI_SendDebugMessage("%s: %d", prefix2, package.value2);
+        MIOS32_LCD_PrintFormattedString("%s: %d", prefix2, package.value2);
     }
 
     // display 4
