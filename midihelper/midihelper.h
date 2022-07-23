@@ -16,6 +16,8 @@ public:
     static const char *getCCs(u8 cc_number, u8 value);
 
     static bool isFlat(int note_value);
+
+    static const char *getProgramChange(u8 value);
 };
 
 #endif
