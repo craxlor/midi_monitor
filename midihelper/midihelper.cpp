@@ -515,3 +515,8 @@ const char *MidiHelper::getProgramChange(u8 value)
     std::string result = value + " - " + name;
     return result.c_str();
 }
+
+int MidiHelper::getPitchBend(u8 value1, u8 value2)
+{
+    return ((value2 << 7) | (value1 & 0x7f)) - 8192;
+}
