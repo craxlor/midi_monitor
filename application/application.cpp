@@ -20,15 +20,16 @@ Application::Application()
 // could also be an issue with higher notes, than our display can show. ??? INVESTIGATE!
 void Application::setLastReceivedPackage(mios32_midi_package_t p)
 {
+    lastReceivedPackage[p.chn] = p; // store package according to its channel
+
     if (p.type == NoteOn)
     {
-        NOTESTACK_Push(&notestack[p.chn], p.note, p.velocity);
+        // NOTESTACK_Push(&notestack[p.chn], p.note, p.velocity);
     }
     if (p.type == NoteOff)
     {
         NOTESTACK_Pop(&notestack[p.chn], p.note);
     }
-    lastReceivedPackage = p;
 }
 
 void Application::changeVisualizationMode()
@@ -59,7 +60,7 @@ void Application::draw()
     // clear all displays
     MIOS32_LCD_Clear();
     if (visualizationmode)
-        Text::draw(lastReceivedPackage);
+        Text::draw(lastReceivedPackage[selectedChannel]);
     else
     {
         Keyboard::drawKeyboard();
