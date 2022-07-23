@@ -18,7 +18,7 @@ private:
     bool visualizationmode = true;
 
     int selectedChannel = 0;
-    mios32_midi_package_t lastReceivedPackage[16]; // store the last received package of every channel
+    mios32_midi_package_t lastReceivedPackage[17]; // store the last received package of every channel
     notestack_t notestack[16];
     notestack_item_t notestack_items[NOTESTACK_SIZE];
 

@@ -21,10 +21,11 @@ Application::Application()
 void Application::setLastReceivedPackage(mios32_midi_package_t p)
 {
     lastReceivedPackage[p.chn] = p; // store package according to its channel
+    lastReceivedPackage[16] = p;
 
     if (p.type == NoteOn)
     {
-        // NOTESTACK_Push(&notestack[p.chn], p.note, p.velocity);
+        NOTESTACK_Push(&notestack[p.chn], p.note, p.velocity);
     }
     if (p.type == NoteOff)
     {
