@@ -107,7 +107,7 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 {
   switch (pin) // determine button
   {
-  case 17:               // encoder button
+  case 17:              // encoder button
     if (pin_value == 0) // has been pressed
     {
       APP.changeVisualizationMode();
@@ -125,8 +125,9 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 extern "C" void APP_ENC_NotifyChange(u32 encoder, s32 incrementer)
 {
   mios32_enc_config_t encoder_cfg = MIOS32_ENC_ConfigGet(encoder);
-  if (encoder_cfg.cfg.pos == 0 && encoder_cfg.cfg.sr == 1) {
-    //incrementer negative -> clockwise turn
+  if (encoder_cfg.cfg.pos == 0 && encoder_cfg.cfg.sr == 1)
+  {
+    // incrementer negative -> clockwise turn
     APP.changeSelectedChannel(incrementer < 0);
   }
 }

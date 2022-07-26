@@ -56,13 +56,12 @@ void Keyboard::drawNotestack(notestack_t notestack)
     int pixelColumnIndex;
     u8 byteToDraw;
     int height;
-    MIOS32_LCD_DeviceSet(1);
     for (size_t i = 0; i < notestack.len; i++)
     {
 
         value = notestack.note_items[i].note;
 
-        if (MidiHelper::isFlat(value) == true) // black key
+        if (MidiHelper::isFlat(value)) // black key
         {
             height = 15;
             // check if the note is pressed
@@ -153,7 +152,6 @@ void Keyboard::drawNotestack(notestack_t notestack)
             pixelColumnIndex = ((value % 12) + 1) * 3 + octave;
         }
         MIOS32_MIDI_SendDebugString("Zeichne die bytes...");
-        MIOS32_MIDI_SendDebugMessage("column index: %d, Zeilenindex: %d, byte: %x ", pixelColumnIndex, height, byteToDraw);
         MIOS32_LCD_DeviceSet(display);
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
         MIOS32_LCD_Data(byteToDraw);
@@ -161,5 +159,6 @@ void Keyboard::drawNotestack(notestack_t notestack)
         MIOS32_LCD_Data(byteToDraw);
         MIOS32_LCD_GCursorSet(pixelColumnIndex, height);
         MIOS32_LCD_Data(byteToDraw);
+        MIOS32_MIDI_SendDebugMessage("column index: %d, Zeilenindex: %d, byte: %x ", pixelColumnIndex, height, byteToDraw);
     }
 }

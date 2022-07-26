@@ -44,11 +44,10 @@ void Application::changeSelectedChannel(bool directionUp)
             selectedChannel = 0;
         else
             selectedChannel++;
+    else if (selectedChannel <= 0)
+        selectedChannel = 15;
     else
-        if (selectedChannel <= 0)
-            selectedChannel = 15;
-        else
-            selectedChannel--;
+        selectedChannel--;
     MIOS32_MIDI_SendDebugMessage("Channel: %d", (selectedChannel + 1));
 }
 
