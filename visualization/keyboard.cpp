@@ -50,67 +50,111 @@ void Keyboard::drawKeyboard()
 
 void Keyboard::drawNotestack(notestack_t notestack)
 {
-    int note;
+    int value;
+    int octave;
+    int display;
+    int pixelColumnIndex;
+    u8 byteToDraw;
+    int height;
+    MIOS32_LCD_DeviceSet(1);
     for (size_t i = 0; i < notestack.len; i++)
     {
-        // check if the note is pressed
-        if (notestack.note_items[i].depressed)
-            continue;
 
-        // select correct display
-        // note = notestack.note_items[i].note;
-        // if (note < 34)
-        // {
-        //     MIOS32_LCD_DeviceSet(0);
-        //     note -= 33;
-        // }
-        // else if (note < 33 * 2 + 1)
-        // {
-        //     MIOS32_LCD_DeviceSet(1);
-        //     note -= 33 * 2;
-        // }
-        // else if (note < 33 * 3 + 1)
-        // {
-        //     MIOS32_LCD_DeviceSet(2);
-        //     note -= 33 * 3;
-        // }
-        // else if (note < 33 * 4 + 1)
-        // {
-        //     MIOS32_LCD_DeviceSet(3);
-        //     note -= 33 * 4;
-        // }
+        value = notestack.note_items[i].note;
 
-        // start of drawNote() sourcecode
-        int octave;
-        u8 byteToDraw;
-        int height;
-        // determine if note is a black or white key
-        if (MidiHelper::isFlat(note)) // black key
+        if (MidiHelper::isFlat(value) == true) // black key
         {
             height = 15;
-            byteToDraw = 0x7F;
+            // check if the note is pressed
+            if (notestack.note_items[i].depressed)
+            {
+                byteToDraw = 0x7F;
+            }
+            else
+            {
+                byteToDraw = 0x00;
+            }
         }
         else // white key
         {
             height = 26;
-            byteToDraw = 0x00;
+            // check if the note is pressed
+            if (notestack.note_items[i].depressed)
+            {
+                byteToDraw = 0x00;
+            }
+            else
+            {
+                byteToDraw = 0x7F;
+            }
         }
 
-        //???
-        if (note > 23 && note <= 35)
+        if (value > 95 && value <= 107)
         {
+            display = 3;
             octave = 84;
         }
-        else if (note > 11)
+        else if (value > 83 && value <= 95)
         {
+            display = 3;
+            octave = 42;
+        }
+        else if (value > 71 && value <= 83)
+        {
+            display = 3;
+            octave = 0;
+        }
+        else if (value > 59 && value <= 71)
+        {
+            display = 2;
+            octave = 84;
+        }
+        else if (value > 47 && value <= 59)
+        {
+            display = 2;
+            octave = 42;
+        }
+        else if (value > 35 && value <= 47)
+        {
+            display = 2;
+            octave = 0;
+        }
+        else if (value > 23 && value <= 35)
+        {
+            display = 1;
+            octave = 84;
+        }
+        else if (value > 11)
+        {
+            display = 1;
             octave = 42;
         }
         else
         {
+            display = 1;
             octave = 0;
         }
-        // draw
-        int pixelColumnIndex = ((note % 12) + 1) * 3 + octave;
+
+        // Note F upwards: correct collumn-index to fit Keyboard drawing
+        if ((value % 12) >= 5)
+        {
+            // Special Case for B:
+            if ((value % 12) == 11)
+            {
+                pixelColumnIndex = (((value - 1) % 12) + 3) * 3 + octave;
+            }
+            else
+            {
+                pixelColumnIndex = (((value + 1) % 12) + 1) * 3 + octave;
+            }
+        }
+        else
+        {
+            pixelColumnIndex = ((value % 12) + 1) * 3 + octave;
+        }
+        MIOS32_MIDI_SendDebugString("Zeichne die bytes...");
+        MIOS32_MIDI_SendDebugMessage("column index: %d, Zeilenindex: %d, byte: %x ", pixelColumnIndex, height, byteToDraw);
+        MIOS32_LCD_DeviceSet(display);
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
         MIOS32_LCD_Data(byteToDraw);
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);

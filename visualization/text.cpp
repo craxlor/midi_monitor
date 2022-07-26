@@ -23,11 +23,11 @@ void Text::draw(mios32_midi_package_t package)
         break;
     case CC:
         prefix1 = "CC#";
-        prefix2 = "CC value#";
+        prefix2 = "CC Value#";
         break;
     case PitchBend:
-        prefix1 = "pitchbend";
-        prefix2 = "value";
+        prefix1 = "Pitchbend";
+        prefix2 = "Value";
         break;
     }
     MIOS32_LCD_CursorSet(0, 0); // X, Y
