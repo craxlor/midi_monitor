@@ -39,9 +39,9 @@ mios32_lcd_bitmap_t Keyboard::bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 
 
 void Keyboard::drawKeyboard()
 {
-    // draw keyboard on first 4 displays
-    for (size_t i = 0; i < 4; i++)
+    for (int i = 1; i < 5; i++)
     {
+        mios32_lcd_bitmap_t bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 32, 126, 1);
         MIOS32_LCD_DeviceSet(i);
         MIOS32_LCD_CursorSet(0, 0);
         MIOS32_LCD_BitmapPrint(bitmap);
