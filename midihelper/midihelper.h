@@ -16,6 +16,10 @@ public:
     static const char *getCCs(u8 cc_number, u8 value);
 
     static bool isFlat(int note_value);
+
+    static const char *getProgramChange(u8 value);
+
+    static int getPitchBend(u8 value1, u8 value2);
 };
 
 #endif
