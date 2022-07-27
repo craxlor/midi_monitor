@@ -39,13 +39,23 @@ void Application::changeVisualizationMode()
     MIOS32_MIDI_SendDebugMessage("visualizationmode: %s", getVisualizationModeAsString());
 }
 
-void Application::changeSelectedChannel()
+void Application::changeSelectedChannel(bool directionUp)
 {
-    if (selectedChannel > 15)
-        selectedChannel = 0;
+    if (directionUp)
+    {
+        if (selectedChannel >= 15)
+            selectedChannel = 0;
+        else
+            selectedChannel++;
+    }
     else
-        selectedChannel++;
-    MIOS32_MIDI_SendDebugMessage("channel: %d", (selectedChannel + 1));
+    {
+        if (selectedChannel <= 0)
+            selectedChannel = 15;
+        else
+            selectedChannel--;
+    }
+    MIOS32_MIDI_SendDebugMessage("Channel: %d", (selectedChannel + 1));
 }
 
 const char *Application::getVisualizationModeAsString()

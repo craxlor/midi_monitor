@@ -31,6 +31,13 @@
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_Init(void)
 {
+  mios32_enc_config_t enc_config;
+  enc_config.cfg.sr = 1;
+  enc_config.cfg.type = DETENTED2;
+  enc_config.cfg.speed = FAST;
+  enc_config.cfg.speed_par = 0;
+  enc_config.cfg.pos = 0;
+  MIOS32_ENC_ConfigSet(0, enc_config);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -98,21 +105,12 @@ extern "C" void APP_SRIO_ServiceFinish(void)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 {
-  if (pin_value == 0)
-    MIOS32_MIDI_SendDebugMessage("pin: %d", pin);
-
   switch (pin) // determine button
   {
-  case 16:              // encoder button
+  case 17:               // encoder button
     if (pin_value == 0) // has been pressed
     {
       APP.changeVisualizationMode();
-    }
-    break;
-  case 17:
-    if (pin_value == 0) // has been pressed
-    {
-      APP.changeSelectedChannel();
     }
     break;
   }
@@ -126,6 +124,11 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_ENC_NotifyChange(u32 encoder, s32 incrementer)
 {
+  mios32_enc_config_t encoder_cfg = MIOS32_ENC_ConfigGet(encoder);
+  if (encoder_cfg.cfg.pos == 0 && encoder_cfg.cfg.sr == 1) {
+    //incrementer negative -> clockwise turn
+    APP.changeSelectedChannel(incrementer < 0);
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////

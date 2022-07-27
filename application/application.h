@@ -37,7 +37,7 @@ public:
 
     const char *getVisualizationModeAsString();
 
-    void changeSelectedChannel();
+    void changeSelectedChannel(bool directionUp);
 
     void draw();
 
