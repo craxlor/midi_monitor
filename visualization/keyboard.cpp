@@ -39,12 +39,16 @@ mios32_lcd_bitmap_t Keyboard::bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 
 
 void Keyboard::drawKeyboard()
 {
-    for (int i = 1; i < 5; i++)
+    int octave = 1;
+    for (int i = 1; i < 4; i++)
     {
         mios32_lcd_bitmap_t bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 32, 126, 1);
         MIOS32_LCD_DeviceSet(i);
         MIOS32_LCD_CursorSet(0, 0);
         MIOS32_LCD_BitmapPrint(bitmap);
+        MIOS32_LCD_GCursorSet(0, 40);
+        MIOS32_LCD_PrintFormattedString("Octave: %d-%d", octave, octave+2);
+        octave += 3;
     }
 }
 
@@ -60,12 +64,13 @@ void Keyboard::drawNotestack(notestack_t notestack)
     {
 
         value = notestack.note_items[i].note;
+        MIOS32_MIDI_SendDebugMessage("Notestack Note: %d", value);
 
-        if (MidiHelper::isFlat(value)) // black key
+        if (MidiHelper::isFlat(value) == true) // black key
         {
             height = 15;
             // check if the note is pressed
-            if (notestack.note_items[i].depressed)
+            if (notestack.note_items[i].depressed == 0)
             {
                 byteToDraw = 0x7F;
             }
@@ -78,7 +83,7 @@ void Keyboard::drawNotestack(notestack_t notestack)
         {
             height = 26;
             // check if the note is pressed
-            if (notestack.note_items[i].depressed)
+            if (notestack.note_items[i].depressed == 0)
             {
                 byteToDraw = 0x00;
             }

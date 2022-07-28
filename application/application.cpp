@@ -7,10 +7,10 @@ Application::Application()
     MIOS32_MIDI_SendDebugString("called application constructor");
 
     // notestack init
-    for (size_t i = 0; i < 16; i++)
+    for (int i = 0; i < 16; i++)
     {
         notestack_item_t nodestackItems[NOTESTACK_SIZE];
-        NOTESTACK_Init(&notestack[i], NOTESTACK_MODE_PUSH_TOP, nodestackItems, NOTESTACK_SIZE);
+        NOTESTACK_Init(&notestack[i], NOTESTACK_MODE_SORT, nodestackItems, NOTESTACK_SIZE);
     }
 
     // NOTESTACK_Init(, NOTESTACK_MODE_PUSH_TOP, &notestack_items[0], NOTESTACK_SIZE);
