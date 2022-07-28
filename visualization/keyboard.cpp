@@ -95,22 +95,22 @@ void Keyboard::drawNotestack(notestack_t notestack)
             height = 26;
             byteToDraw = 0x00;
         }
+        
+        int pixelOffset, pixelColumnIndex;
+        // calculate offset resulting from notes b & c and the octaves
+        if (note > 23) // 3rd ocatve
+            pixelOffset = 84 + 2;
+        else if (note > 11) // 2nd octave
+            pixelOffset = 42 + 1;
+        else // 1st octave
+            pixelOffset = 0;
 
-        //???
-        if (note > 23 && note <= 35)
-        {
-            octave = 84;
-        }
-        else if (note > 11)
-        {
-            octave = 42;
-        }
-        else
-        {
-            octave = 0;
-        }
+        // calculate offset resulting from note e & f
+        if (note % 12 > 4)
+            pixelOffset += 1;
+
         // draw
-        int pixelColumnIndex = ((note % 12) + 1) * 3 + octave;
+        pixelColumnIndex = ((note % 12) + 1) * 3 + pixelOffset;
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
         MIOS32_LCD_Data(byteToDraw);
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);
