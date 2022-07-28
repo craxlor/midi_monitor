@@ -20,7 +20,7 @@ private:
     int selectedChannel = 0;
     mios32_midi_package_t lastReceivedPackage[17]; // store the last received package of every channel
     notestack_t notestack[16];
-    notestack_item_t notestack_items[NOTESTACK_SIZE];
+    notestack_item_t notestack_items[NOTESTACK_SIZE][16];
 
 public:
     static Application &getInstance()
