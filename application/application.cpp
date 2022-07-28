@@ -9,15 +9,10 @@ Application::Application()
     // notestack init
     for (size_t i = 0; i < 16; i++)
     {
-        notestack_item_t nodestackItems[NOTESTACK_SIZE];
-        NOTESTACK_Init(&notestack[i], NOTESTACK_MODE_PUSH_TOP, nodestackItems, NOTESTACK_SIZE);
+        NOTESTACK_Init(&notestack[i], NOTESTACK_MODE_PUSH_TOP, notestack_items[i], NOTESTACK_SIZE);
     }
-
-    // NOTESTACK_Init(, NOTESTACK_MODE_PUSH_TOP, &notestack_items[0], NOTESTACK_SIZE);
 }
 
-// combination of channel switch and holding notes in mios studio seems to mess with values
-// could also be an issue with higher notes, than our display can show. ??? INVESTIGATE!
 void Application::setLastReceivedPackage(mios32_midi_package_t p)
 {
     lastReceivedPackage[p.chn] = p; // store package according to its channel
