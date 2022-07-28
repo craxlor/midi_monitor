@@ -39,12 +39,31 @@ mios32_lcd_bitmap_t Keyboard::bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 
 
 void Keyboard::drawKeyboard()
 {
+    const char *octave = "";
     // draw keyboard on first 4 displays
     for (size_t i = 0; i < 4; i++)
     {
         MIOS32_LCD_DeviceSet(i);
         MIOS32_LCD_CursorSet(0, 0);
         MIOS32_LCD_BitmapPrint(bitmap);
+        // show 1st octave of display
+        MIOS32_LCD_CursorSet(0, 5); // 0,5 because 0,6 contains selected channel information
+        switch (i)
+        {
+        case 0:
+            octave = "c-2";
+            break;
+        case 1:
+            octave = "c 1";
+            break;
+        case 2:
+            octave = "c 4";
+            break;
+        case 3:
+            octave = "c 7";
+            break;
+        }
+        MIOS32_LCD_PrintString(octave);
     }
 }
 
