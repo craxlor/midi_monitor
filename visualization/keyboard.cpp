@@ -96,21 +96,17 @@ void Keyboard::drawNotestack(notestack_t notestack)
             byteToDraw = 0x00;
         }
         
-        int pixelOffset, pixelColumnIndex;
-        // calculate offset resulting from notes b & c and the octaves
-        if (note > 23) // 3rd ocatve
-            pixelOffset = 84 + 2;
-        else if (note > 11) // 2nd octave
-            pixelOffset = 42 + 1;
-        else // 1st octave
-            pixelOffset = 0;
+        int pixelColumnIndex;
 
-        // calculate offset resulting from note e & f
-        if (note % 12 > 4)
-            pixelOffset += 1;
-
-        // draw
-        pixelColumnIndex = ((note % 12) + 1) * 3 + pixelOffset;
+        int standardKeyOffset = 3;
+        //includes they keygap between octaves
+        int octaveOffset = standardKeyOffset * 14;
+        //starting from 1
+        int currentKey = (note % 12 + 1);
+        int keyGapOffset = currentKey > 5 ? standardKeyOffset : 0;
+        //locates the penultimate pixel (width) of a key
+        pixelColumnIndex = (currentKey * standardKeyOffset) + keyGapOffset + note / 12 * octaveOffset;
+        
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
         MIOS32_LCD_Data(byteToDraw);
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);
