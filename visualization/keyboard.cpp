@@ -47,7 +47,7 @@ void Keyboard::drawKeyboard()
         MIOS32_LCD_CursorSet(0, 0);
         MIOS32_LCD_BitmapPrint(bitmap);
         MIOS32_LCD_GCursorSet(0, 40);
-        MIOS32_LCD_PrintFormattedString("Octave: %d-%d", octave, octave+2);
+        MIOS32_LCD_PrintFormattedString("Octave: %d to %d", octave-3, octave);
         octave += 3;
     }
 }
