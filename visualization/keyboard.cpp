@@ -50,7 +50,6 @@ void Keyboard::drawKeyboard()
 
 void Keyboard::drawNotestack(notestack_t notestack)
 {
-    int note, height, pixelOffset, pixelColumnIndex;
     u8 byteToDraw;
     for (size_t i = 0; i < notestack.len; i++)
     {
