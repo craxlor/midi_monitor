@@ -8,6 +8,10 @@ MISSING DESCRIPTION
     - [Required tools](#required-tools)
     - [Required hardware](#required-hardware)
   - [Setup Environment](#setup-environment)
+  - [common pitfalls and errors](#common-pitfalls-and-errors)
+    - [Some parts of mios32 won't compile anymore (i.e. datatypes like u32..)](#some-parts-of-mios32-wont-compile-anymore-ie-datatypes-like-u32)
+    - [ARM-NONE-EABI-GCC not referenced errors](#arm-none-eabi-gcc-not-referenced-errors)
+    - [to_string() method cannot be used when using <string> include with std::string](#to_string-method-cannot-be-used-when-using-string-include-with-stdstring)
   - [Git guidelines](#git-guidelines)
   - [License](#license)
 
@@ -54,6 +58,43 @@ MISSING DESCRIPTION
             ]
           }
         }```
+## common pitfalls and errors
+
+### Some parts of mios32 won't compile anymore (i.e. datatypes like u32..)
+
+<p> 
+I assume it happens because some of the mios32 header files aren't supposed to be explicitly included alone due to internal dependencies, which can't be resolved anymore, because these header files don't include other header files. This is collectively done in mios32.h
+
+To fix this, do not include single header files like mios32_midi.h  (at least without including mios32.h before).
+Instead just include mios32.h :)
+</p>
+
+### ARM-NONE-EABI-GCC not referenced errors
+
+<p>
+this problem occurs due to the default setting of the compiler to use a socalled semi hosting feature. We dont need this feature and can disable it with "--specs=nosys.specs" flag. To set this flag using our makefile script, we can edit the cflags variable in common.mk like so:
+
+```
+<<CFLAGS += $(C_DEFINES) $(C_INCLUDE) -Wall -Wno-format -Wno-switch -Wno-strict-aliasing --specs=nosys.specs>>
+```
+
+hint: it seems to be the case, that the mios32_toolchain doesnt include such a nosys.specs configuration file or in another location.
+</p>
+
+### to_string() method cannot be used when using <string> include with std::string
+
+<p>
+
+The reason for this not to work is a known [bug](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52015) under mingw. The mios32 toolchain we are using provides an arm compiler (arm-none-eabi-gcc) with of version 4.7.4.
+
+The problem was fixed with version 4.8.1+
+
+To fix this, download a new version of the compiler we use for our target platform [here](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/downloads) (arm-none-eabi-gcc for windows) and replace your version in your mios32_toolchain/ folder.
+
+alternatively you could just install the toolchain and remove the old path from to the mios32 toolchain and add the path to the new toolchain.
+
+hint: when part of the project is already compiled with a different compiler, errors can occurr. If this is the case, try deleteing the project_build and recompile the entire project.
+</p>
 
 ## Git guidelines
 inspired by [blackfalcon](https://gist.github.com/blackfalcon/8428401) & [angular](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit)
