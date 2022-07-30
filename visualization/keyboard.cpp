@@ -50,40 +50,23 @@ void Keyboard::drawKeyboard()
 
 void Keyboard::drawNotestack(notestack_t notestack)
 {
-    int note;
+    u8 byteToDraw;
     for (size_t i = 0; i < notestack.len; i++)
     {
+        int note, height, pixelOffset, pixelColumnIndex;
         // check if the note is pressed
         if (notestack.note_items[i].depressed)
             continue;
 
-        // select correct display
-        // note = notestack.note_items[i].note;
-        // if (note < 34)
-        // {
-        //     MIOS32_LCD_DeviceSet(0);
-        //     note -= 33;
-        // }
-        // else if (note < 33 * 2 + 1)
-        // {
-        //     MIOS32_LCD_DeviceSet(1);
-        //     note -= 33 * 2;
-        // }
-        // else if (note < 33 * 3 + 1)
-        // {
-        //     MIOS32_LCD_DeviceSet(2);
-        //     note -= 33 * 3;
-        // }
-        // else if (note < 33 * 4 + 1)
-        // {
-        //     MIOS32_LCD_DeviceSet(3);
-        //     note -= 33 * 4;
-        // }
+        /**
+         * select correct display
+         * 12 notes per octave, 3 octaves per display --> 12*3 notes per display --> 36 notes
+         */
+        note = notestack.note_items[i].note % 36;
+        MIOS32_LCD_DeviceSet(notestack.note_items[i].note / 36);
 
         // start of drawNote() sourcecode
         int octave;
-        u8 byteToDraw;
-        int height;
         // determine if note is a black or white key
         if (MidiHelper::isFlat(note)) // black key
         {
@@ -95,8 +78,6 @@ void Keyboard::drawNotestack(notestack_t notestack)
             height = 26;
             byteToDraw = 0x00;
         }
-        
-        int pixelColumnIndex;
 
         int standardKeyOffset = 3;
         //includes they keygap between octaves
