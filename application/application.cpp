@@ -38,7 +38,7 @@ void Application::changeSelectedChannel(bool directionUp)
 {
     if (directionUp)
     {
-        if (selectedChannel >= 15)
+        if (selectedChannel >= 16)
             selectedChannel = 0;
         else
             selectedChannel++;
@@ -46,7 +46,7 @@ void Application::changeSelectedChannel(bool directionUp)
     else
     {
         if (selectedChannel <= 0)
-            selectedChannel = 15;
+            selectedChannel = 16;
         else
             selectedChannel--;
     }
@@ -63,22 +63,30 @@ const char *Application::getVisualizationModeAsString()
 
 void Application::draw()
 {
+    //selected channel depending on selected mode
+    int contextSelectedChannel;
+    if (!visualizationmode && selectedChannel == 16)
+        contextSelectedChannel = 15;
+    else
+        contextSelectedChannel = selectedChannel;
+        
+    
     // clear all displays
     MIOS32_LCD_Clear();
     if (visualizationmode)
-        Text::draw(lastReceivedPackage[selectedChannel]);
+        Text::draw(lastReceivedPackage[contextSelectedChannel]);
     else
-    {
+    {   
         Keyboard::drawKeyboard();
-        Keyboard::drawNotestack(notestack[selectedChannel]);
+        Keyboard::drawNotestack(notestack[contextSelectedChannel]);
     }
     // show selected channel on screen
     MIOS32_LCD_DeviceSet(0);
     MIOS32_LCD_CursorSet(0, 6); // X, Y
-    if (selectedChannel > 15)
+    if (contextSelectedChannel > 15)
         MIOS32_LCD_PrintString("selected channel: all");
     else
-        MIOS32_LCD_PrintFormattedString("selected channel: %d", (selectedChannel + 1));
+        MIOS32_LCD_PrintFormattedString("selected channel: %d", (contextSelectedChannel + 1));
 }
 
 notestack_t *Application::getNotestack()
