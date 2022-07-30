@@ -79,22 +79,15 @@ void Keyboard::drawNotestack(notestack_t notestack)
             byteToDraw = 0x00;
         }
 
-        //???
-        if (note > 23 && note <= 35)
-        {
-            octave = 84;
-        }
-        else if (note > 11)
-        {
-            octave = 42;
-        }
-        else
-        {
-            octave = 0;
-        }
+        int standardKeyOffset = 3;
+        //includes they keygap between octaves
+        int octaveOffset = standardKeyOffset * 14;
+        //starting from 1
+        int currentKey = (note % 12 + 1);
+        int keyGapOffset = currentKey > 5 ? standardKeyOffset : 0;
+        //locates the penultimate pixel (width) of a key
+        pixelColumnIndex = (currentKey * standardKeyOffset) + keyGapOffset + note / 12 * octaveOffset;
         
-        // draw
-        int pixelColumnIndex = ((note % 12) + 1) * 3 + octave;
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
         MIOS32_LCD_Data(byteToDraw);
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);
