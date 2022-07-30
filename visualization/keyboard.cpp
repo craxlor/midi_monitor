@@ -51,16 +51,16 @@ void Keyboard::drawKeyboard()
         switch (i)
         {
         case 0:
-            octave = "c-2";
+            octave = "C-2";
             break;
         case 1:
-            octave = "c 1";
+            octave = "C1";
             break;
         case 2:
-            octave = "c 4";
+            octave = "C4";
             break;
         case 3:
-            octave = "c 7";
+            octave = "C7";
             break;
         }
         MIOS32_LCD_PrintString(octave);
