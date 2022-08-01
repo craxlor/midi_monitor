@@ -56,6 +56,10 @@ void Text::draw(mios32_midi_package_t package)
     {
         MIOS32_LCD_PrintFormattedString("%s: %d", prefix1, MidiHelper::getProgramChange(package.value1));
     }
+    else if (prefix1 == std::string("cc"))
+    {
+        MIOS32_LCD_PrintFormattedString("%s: %d %s", prefix1, package.value1, MidiHelper::getCCs(package.cc_number));
+    }
     else
         MIOS32_LCD_PrintFormattedString("%s: %d", prefix1, package.value1);
 
