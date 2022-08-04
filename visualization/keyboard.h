@@ -3,7 +3,10 @@
 
 #include <mios32.h>
 #include <notestack.h>
-
+/**
+ * @brief The Keyboard class contains all the attributes & methods needed to implement the keyboard visualisation.
+ * @authors Arnaud Kalthoff
+ */
 class Keyboard
 {
 private:

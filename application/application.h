@@ -5,7 +5,10 @@
 #include <notestack.h>
 
 #define NOTESTACK_SIZE 16
-
+/**
+ * @brief The Application class is implemented as a singleton.
+ * @authors Arnaud Kalthoff
+ */
 class Application
 {
 private:

@@ -3,7 +3,10 @@
 
 #include <mios32.h>
 #include <string>
-
+/**
+ * @brief The MidiHelper class contains public static methods. The methods are used to translate midi information.
+ * @authors Arnaud Kalthoff
+ */
 class MidiHelper
 {
 public:

@@ -2,7 +2,10 @@
 #define TEXT_H
 
 #include <mios32.h>
-
+/**
+ * @brief The Text class contains all the attributes & methods needed to implement the text visualisation.
+ * @authors Arnaud Kalthoff
+ */
 class Text
 {
 public:
