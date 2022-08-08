@@ -23,7 +23,7 @@ void Text::draw(mios32_midi_package_t package)
         MIOS32_LCD_PrintFormattedString("velocity: %d", package.value2);
         break;
     case CC:
-        MIOS32_LCD_PrintFormattedString("cc: %s", MidiHelper::getCCs(package.value1));
+        MIOS32_LCD_PrintFormattedString("cc: %s", MidiHelper::getCC(package.value1));
         MIOS32_LCD_CursorSet(0, 5); // X, Y
         MIOS32_LCD_PrintFormattedString("value: %d", package.value2);
         break;

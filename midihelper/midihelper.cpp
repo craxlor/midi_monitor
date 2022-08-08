@@ -84,10 +84,10 @@ const char *MidiHelper::getNote(u8 value)
     return note.c_str();
 }
 
-const char *MidiHelper::getCCs(u8 cc_number)
+const char *MidiHelper::getCC(u8 value)
 {
     std::string name = "undefined";
-    switch (cc_number)
+    switch (value)
     {
     case 0:
         name = "Bank MSB";
@@ -474,8 +474,8 @@ const char *MidiHelper::getCCs(u8 cc_number)
         name = "Poly On";
         break;
     }
-    std::string cc_event = name;
-    return cc_event.c_str();
+    std::string result = value + "-" + name;
+    return result.c_str();
 }
 
 bool MidiHelper::isFlat(int note_value)

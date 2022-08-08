@@ -13,7 +13,7 @@ public:
 
     static const char *getNote(u8 value);
 
-    static const char *getCCs(u8 cc_number);
+    static const char *getCC(u8 cc_number);
 
     static bool isFlat(int note_value);
 
