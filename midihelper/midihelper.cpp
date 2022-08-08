@@ -84,10 +84,398 @@ const char *MidiHelper::getNote(u8 value)
     return note.c_str();
 }
 
-const char *MidiHelper::getCCs(u8 cc_number, u8 value)
+const char *MidiHelper::getCC(u8 value)
 {
-    std::string cc_event = std::to_string(cc_number) + " = " + std::to_string(value);
-    return cc_event.c_str();
+    std::string name = "undefined";
+    switch (value)
+    {
+    case 0:
+        name = "Bank MSB";
+        break;
+    case 1:
+        name = "ModWheel";
+        break;
+    case 2:
+        name = "Breath";
+        break;
+    case 3:
+        name = "Crtl.3";
+        break;
+    case 4:
+        name = "FootCrtl";
+        break;
+    case 5:
+        name = "PortTime";
+        break;
+    case 6:
+        name = "Data MSB";
+        break;
+    case 7:
+        name = "Volume";
+        break;
+    case 8:
+        name = "Balance";
+        break;
+    case 9:
+        name = "Crtl.9";
+        break;
+    case 10:
+        name = "Panorama";
+        break;
+    case 11:
+        name = "Expr.";
+        break;
+    case 12:
+        name = "Fx#1 MSB";
+        break;
+    case 13:
+        name = "Fx#2 MSB";
+        break;
+    case 14:
+        name = "Crtl.14";
+        break;
+    case 15:
+        name = "Crtl.15";
+        break;
+    case 16:
+        name = "GP #1";
+        break;
+    case 17:
+        name = "GP #2";
+        break;
+    case 18:
+        name = "GP #3";
+        break;
+    case 19:
+        name = "GP #4";
+        break;
+    case 20:
+        name = "Crtl.20";
+        break;
+    case 21:
+        name = "Crtl.21";
+        break;
+    case 22:
+        name = "Crtl.22";
+        break;
+    case 23:
+        name = "Crtl.23";
+        break;
+    case 24:
+        name = "Crtl.24";
+        break;
+    case 25:
+        name = "Crtl.25";
+        break;
+    case 26:
+        name = "Crtl.26";
+        break;
+    case 27:
+        name = "Crtl.27";
+        break;
+    case 28:
+        name = "Crtl.28";
+        break;
+    case 29:
+        name = "Crtl.29";
+        break;
+    case 30:
+        name = "Crtl.30";
+        break;
+    case 31:
+        name = "Crtl.31";
+        break;
+    case 32:
+        name = "Bank LSB";
+        break;
+    case 33:
+        name = "Mod LSB";
+        break;
+    case 34:
+        name = "Breath LSB";
+        break;
+    case 35:
+        name = "Crtl.35";
+        break;
+    case 36:
+        name = "Foot LSB";
+        break;
+    case 37:
+        name = "Porta LSB";
+        break;
+    case 38:
+        name = "Data LSB";
+        break;
+    case 39:
+        name = "Vol. LSB";
+        break;
+    case 40:
+        name = "Bal. LSB";
+        break;
+    case 41:
+        name = "Crtl.41";
+        break;
+    case 42:
+        name = "Pan LSB";
+        break;
+    case 43:
+        name = "Expr LSB";
+        break;
+    case 44:
+        name = "Fx#1 LSB";
+        break;
+    case 45:
+        name = "Fx#2 LSB";
+        break;
+    case 46:
+        name = "Crtl.46";
+        break;
+    case 47:
+        name = "Crtl.47";
+        break;
+    case 48:
+        name = "Crtl.48";
+        break;
+    case 49:
+        name = "Crtl.49";
+        break;
+    case 50:
+        name = "Crtl.50";
+        break;
+    case 51:
+        name = "Crtl.51";
+        break;
+    case 52:
+        name = "Crtl.52";
+        break;
+    case 53:
+        name = "Crtl.53";
+        break;
+    case 54:
+        name = "Crtl.54";
+        break;
+    case 55:
+        name = "Crtl.55";
+        break;
+    case 56:
+        name = "Crtl.56";
+        break;
+    case 57:
+        name = "Crtl.57";
+        break;
+    case 58:
+        name = "Crtl.58";
+        break;
+    case 59:
+        name = "Crtl.59";
+        break;
+    case 60:
+        name = "Crtl.60";
+        break;
+    case 61:
+        name = "Crtl.61";
+        break;
+    case 62:
+        name = "Crtl.62";
+        break;
+    case 63:
+        name = "Crtl.63";
+        break;
+    case 64:
+        name = "Sustain";
+        break;
+    case 65:
+        name = "Port ON";
+        break;
+    case 66:
+        name = "Sustenu.";
+        break;
+    case 67:
+        name = "SoftPed";
+        break;
+    case 68:
+        name = "LegatoSw";
+        break;
+    case 69:
+        name = "Hold2";
+        break;
+    case 70:
+        name = "Crtl.70";
+        break;
+    case 71:
+        name = "Harmonic";
+        break;
+    case 72:
+        name = "Release";
+        break;
+    case 73:
+        name = "Attack";
+        break;
+    case 74:
+        name = "CutOff";
+        break;
+    case 75:
+        name = "Crtl.75";
+        break;
+    case 76:
+        name = "Crtl.76";
+        break;
+    case 77:
+        name = "Crtl.77";
+        break;
+    case 78:
+        name = "Crtl.78";
+        break;
+    case 79:
+        name = "Crtl.79";
+        break;
+    case 80:
+        name = "Crtl.80";
+        break;
+    case 81:
+        name = "Crtl.81";
+        break;
+    case 82:
+        name = "Crtl.82";
+        break;
+    case 83:
+        name = "Crtl.83";
+        break;
+    case 84:
+        name = "Crtl.84";
+        break;
+    case 85:
+        name = "Crtl.85";
+        break;
+    case 86:
+        name = "Crtl.86";
+        break;
+    case 87:
+        name = "Crtl.87";
+        break;
+    case 88:
+        name = "Crtl.88";
+        break;
+    case 89:
+        name = "Crtl.89";
+        break;
+    case 90:
+        name = "Crtl.90";
+        break;
+    case 91:
+        name = "Reverb";
+        break;
+    case 92:
+        name = "Tremolo";
+        break;
+    case 93:
+        name = "Chorus";
+        break;
+    case 94:
+        name = "Celeste";
+        break;
+    case 95:
+        name = "Phaser";
+        break;
+    case 96:
+        name = "Data Inc";
+        break;
+    case 97:
+        name = "Data Dec";
+        break;
+    case 98:
+        name = "NRPN LSB";
+        break;
+    case 99:
+        name = "NRPN MSB";
+        break;
+    case 100:
+        name = "RPN LSB";
+        break;
+    case 101:
+        name = "RPN MSB";
+        break;
+    case 102:
+        name = "Crtl.102";
+        break;
+    case 103:
+        name = "Crtl.103";
+        break;
+    case 104:
+        name = "Crtl.104";
+        break;
+    case 105:
+        name = "Crtl.105";
+        break;
+    case 106:
+        name = "Crtl.106";
+        break;
+    case 107:
+        name = "Crtl.107";
+        break;
+    case 108:
+        name = "Crtl.108";
+        break;
+    case 109:
+        name = "Crtl.109";
+        break;
+    case 110:
+        name = "Crtl.110";
+        break;
+    case 111:
+        name = "Crtl.111";
+        break;
+    case 112:
+        name = "Crtl.112";
+        break;
+    case 113:
+        name = "Crtl.113";
+        break;
+    case 114:
+        name = "Crtl.114";
+        break;
+    case 115:
+        name = "Crtl.115";
+        break;
+    case 116:
+        name = "Crtl.116";
+        break;
+    case 117:
+        name = "Crtl.117";
+        break;
+    case 118:
+        name = "Crtl.118";
+        break;
+    case 119:
+        name = "Crtl.119";
+        break;
+    case 120:
+        name = "SoundOff";
+        break;
+    case 121:
+        name = "ResetAll";
+        break;
+    case 122:
+        name = "Local";
+        break;
+    case 123:
+        name = "NotesOff";
+        break;
+    case 124:
+        name = "Omni Off";
+        break;
+    case 125:
+        name = "Omni On";
+        break;
+    case 126:
+        name = "Mono On";
+        break;
+    case 127:
+        name = "Poly On";
+        break;
+    }
+    std::string result = value + "-" + name;
+    return result.c_str();
 }
 
 bool MidiHelper::isFlat(int note_value)
