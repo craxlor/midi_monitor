@@ -32,7 +32,7 @@
 extern "C" void APP_Init(void)
 {
   mios32_enc_config_t enc_config;
-  enc_config.cfg.sr = 1;
+  enc_config.cfg.sr = 2;
   enc_config.cfg.type = DETENTED2;
   enc_config.cfg.speed = FAST;
   enc_config.cfg.speed_par = 0;
@@ -125,7 +125,7 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 extern "C" void APP_ENC_NotifyChange(u32 encoder, s32 incrementer)
 {
   mios32_enc_config_t encoder_cfg = MIOS32_ENC_ConfigGet(encoder);
-  if (encoder_cfg.cfg.pos == 0 && encoder_cfg.cfg.sr == 1) {
+  if (encoder_cfg.cfg.pos == 0 && encoder_cfg.cfg.sr == 2) {
     //incrementer negative -> clockwise turn
     APP.changeSelectedChannel(incrementer < 0);
   }

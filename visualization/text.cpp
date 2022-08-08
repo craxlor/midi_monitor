@@ -4,40 +4,8 @@
 
 void Text::draw(mios32_midi_package_t package)
 {
-    const char *prefix1 = "value1";
-    const char *prefix2 = "value2";
-    /**
-     * 1st display
-     * pretty print
-     *
-     * 4th display
-     * raw sysex
-     */
-
-    // display 1
+    // display 1: pretty print
     MIOS32_LCD_DeviceSet(0);
-    switch (package.type)
-    {
-    case NoteOn:
-    case NoteOff:
-        prefix1 = "note";
-        prefix2 = "velocity";
-        break;
-    case CC:
-        prefix1 = "cc";
-        prefix2 = "value";
-        break;
-    case PitchBend:
-    case Aftertouch:
-    case ProgramChange:
-        prefix1 = "value";
-        prefix2 = nullptr;
-        break;
-    case PolyPressure:
-        prefix1 = "note";
-        prefix2 = "value";
-        break;
-    }
     MIOS32_LCD_CursorSet(0, 0); // X, Y
     MIOS32_LCD_PrintString("Midi-Message-Text");
     MIOS32_LCD_CursorSet(0, 2); // X, Y
@@ -45,31 +13,37 @@ void Text::draw(mios32_midi_package_t package)
     MIOS32_LCD_CursorSet(0, 3); // X, Y
     MIOS32_LCD_PrintFormattedString("type: %s", MidiHelper::getType(package.type));
     MIOS32_LCD_CursorSet(0, 4); // X, Y
-
-    if (prefix1 == std::string("note"))
-        MIOS32_LCD_PrintFormattedString("%s: %s", prefix1, MidiHelper::getNote(package.note));
-    else if (package.type == PitchBend)
+    // values
+    switch (package.type)
     {
-        MIOS32_LCD_PrintFormattedString("%s: %d", prefix1, MidiHelper::getPitchBend(package.value1, package.value2));
-    }
-    else if (package.type == ProgramChange)
-    {
-        MIOS32_LCD_PrintFormattedString("%s: %d", prefix1, MidiHelper::getProgramChange(package.value1));
-    }
-    else if (prefix1 == std::string("cc"))
-    {
-        MIOS32_LCD_PrintFormattedString("%s: %d %s", prefix1, package.value1, MidiHelper::getCCs(package.cc_number));
-    }
-    else
-        MIOS32_LCD_PrintFormattedString("%s: %d", prefix1, package.value1);
-
-    if (prefix2 != nullptr)
-    {
+    case NoteOn:
+    case NoteOff:
+        MIOS32_LCD_PrintFormattedString("note: %s", MidiHelper::getNote(package.note));
         MIOS32_LCD_CursorSet(0, 5); // X, Y
-        MIOS32_LCD_PrintFormattedString("%s: %d", prefix2, package.value2);
+        MIOS32_LCD_PrintFormattedString("velocity: %d", package.value2);
+        break;
+    case CC:
+        // TODO integrate method from feature/adapt_getCCs() branch
+        MIOS32_LCD_CursorSet(0, 5); // X, Y
+        MIOS32_LCD_PrintFormattedString("value: %d", package.value2);
+        break;
+    case PitchBend:
+        MIOS32_LCD_PrintFormattedString("value: %d", MidiHelper::getPitchBend(package.value1, package.value2));
+        break;
+    case Aftertouch:
+        MIOS32_LCD_PrintFormattedString("value: %d", package.value1);
+        break;
+    case ProgramChange:
+        MIOS32_LCD_PrintFormattedString("value: %d", MidiHelper::getProgramChange(package.value1));
+        break;
+    case PolyPressure:
+        MIOS32_LCD_PrintFormattedString("note: %s", MidiHelper::getNote(package.note));
+        MIOS32_LCD_CursorSet(0, 5); // X, Y
+        MIOS32_LCD_PrintFormattedString("value: %d", package.value2);
+        break;
     }
 
-    // display 4
+    // display 4: hex format
     MIOS32_LCD_DeviceSet(3);
     MIOS32_LCD_CursorSet(0, 0); // X, Y
     MIOS32_LCD_PrintFormattedString("Midi-Message-RAW");
