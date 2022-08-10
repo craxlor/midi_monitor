@@ -6,10 +6,6 @@
 
 class Keyboard
 {
-private:
-    static u8 piano_bitmap[];
-    static mios32_lcd_bitmap_t bitmap;
-    static void drawNote(u8 note, u8 type);
 public:
     static void drawKeyboard();
     static void drawNotestack(notestack_t notestack);
