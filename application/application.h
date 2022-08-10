@@ -1,3 +1,10 @@
+/**
+ * @file application.h
+ * @authors Arnaud Kalthoff
+ * @brief The Application class is implemented as a singleton.
+ *
+ * @copyright Copyright (c) 2022
+ */
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
@@ -5,10 +12,6 @@
 #include <notestack.h>
 
 #define NOTESTACK_SIZE 16
-/**
- * @brief The Application class is implemented as a singleton.
- * @authors Arnaud Kalthoff
- */
 class Application
 {
 private:

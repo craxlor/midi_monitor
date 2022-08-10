@@ -1,12 +1,15 @@
+/**
+ * @file midihelper.h
+ * @authors Arnaud Kalthoff
+ * @brief The MidiHelper class contains public static methods. The methods are used to translate midi information.
+ *
+ * @copyright Copyright (c) 2022
+ */
 #ifndef MIDIPACKAGE_H
 #define MIDIPACKAGE_H
 
 #include <mios32.h>
 #include <string>
-/**
- * @brief The MidiHelper class contains public static methods. The methods are used to translate midi information.
- * @authors Arnaud Kalthoff
- */
 class MidiHelper
 {
 public:

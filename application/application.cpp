@@ -1,3 +1,10 @@
+/**
+ * @file application.cpp
+ * @authors Arnaud Kalthoff
+ * @brief implements all methods of application.h
+ * 
+ * @copyright Copyright (c) 2022
+ */
 #include "application.h"
 #include "visualization/text.h"
 #include "visualization/keyboard.h"

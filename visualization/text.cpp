@@ -1,3 +1,11 @@
+/**
+ * @file text.cpp
+ * @authors Arnaud Kalthoff
+ * @brief implements all methods of text.h
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include "text.h"
 #include "midihelper/midihelper.h"
 #include <string>

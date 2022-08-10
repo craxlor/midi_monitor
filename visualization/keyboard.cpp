@@ -1,3 +1,10 @@
+/**
+ * @file keyboard.cpp
+ * @authors Arnaud Kalthoff
+ * @brief implements all methods of keyboard.h
+ *
+ * @copyright Copyright (c) 2022
+ */
 #include "keyboard.h"
 #include "midihelper/midihelper.h"
 
@@ -99,14 +106,14 @@ void Keyboard::drawNotestack(notestack_t notestack)
         }
 
         int standardKeyOffset = 3;
-        //includes they keygap between octaves
+        // includes they keygap between octaves
         int octaveOffset = standardKeyOffset * 14;
-        //starting from 1
+        // starting from 1
         int currentKey = (note % 12 + 1);
         int keyGapOffset = currentKey > 5 ? standardKeyOffset : 0;
-        //locates the penultimate pixel (width) of a key
+        // locates the penultimate pixel (width) of a key
         pixelColumnIndex = (currentKey * standardKeyOffset) + keyGapOffset + note / 12 * octaveOffset;
-        
+
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
         MIOS32_LCD_Data(byteToDraw);
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);
