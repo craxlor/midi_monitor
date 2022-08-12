@@ -1,6 +1,6 @@
 /**
  * @file keyboard.cpp
- * @authors Arnaud Kalthoff
+ * @authors Arnaud Kalthoff, Dominic Jabs
  * @brief implements all methods of keyboard.h
  *
  * @copyright Copyright (c) 2022
@@ -8,7 +8,7 @@
 #include "keyboard.h"
 #include "midihelper/midihelper.h"
 
-u8 Keyboard::piano_bitmap[] = { // 126x32px
+u8 Keyboard::piano_bitmap[] = { // 126x32px, generated from image2cpp
     0xfe, 0xfe, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0xfe,
     0xfe, 0x00, 0xfe, 0xfe, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00,
     0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0xfe, 0xfe, 0x00, 0xfe, 0xfe, 0xfe, 0x00, 0x00, 0x00,
@@ -114,6 +114,7 @@ void Keyboard::drawNotestack(notestack_t notestack)
         // locates the penultimate pixel (width) of a key
         pixelColumnIndex = (currentKey * standardKeyOffset) + keyGapOffset + note / 12 * octaveOffset;
 
+        // draws 3 lines upon keyboard bitmap, with each line filling 1 pixel of width
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
         MIOS32_LCD_Data(byteToDraw);
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);
