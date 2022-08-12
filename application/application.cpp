@@ -1,6 +1,6 @@
 /**
  * @file application.cpp
- * @authors Arnaud Kalthoff
+ * @authors Arnaud Kalthoff, DOminic Jabs
  * @brief implements all methods of application.h
  * 
  * @copyright Copyright (c) 2022
@@ -79,11 +79,13 @@ void Application::draw()
         Keyboard::drawKeyboard();
         Keyboard::drawNotestack(notestack[selectedChannel]);
     }
-    // show selected channel on screen
+    // Print selected channel on screen
     MIOS32_LCD_DeviceSet(0);
     MIOS32_LCD_CursorSet(0, 6); // X, Y
+    // MIDI-Channel 17 --> All Channels
     if (selectedChannel > 15)
         MIOS32_LCD_PrintString("selected channel: all");
+    // MIDI-Channel 1 - 16
     else
         MIOS32_LCD_PrintFormattedString("selected channel: %d", (selectedChannel + 1));
 }
