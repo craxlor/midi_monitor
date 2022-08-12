@@ -1,6 +1,6 @@
 /**
  * @file midihelper.cpp
- * @authors Arnaud Kalthoff
+ * @authors Arnaud Kalthoff, Dominic Jabs
  * @brief implements all methods of midihelper.h
  * 
  * @copyright Copyright (c) 2022
