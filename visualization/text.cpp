@@ -1,6 +1,6 @@
 /**
  * @file text.cpp
- * @authors Arnaud Kalthoff
+ * @authors Arnaud Kalthoff, Dominic Jabs
  * @brief implements all methods of text.h
  *
  * @copyright Copyright (c) 2022
@@ -22,7 +22,7 @@ void Text::draw(mios32_midi_package_t package)
      * raw sysex
      */
 
-    // display 1
+    // display 1 - pretty print output
     MIOS32_LCD_DeviceSet(0);
     switch (package.type)
     {
@@ -73,7 +73,7 @@ void Text::draw(mios32_midi_package_t package)
         MIOS32_LCD_PrintFormattedString("%s: %d", prefix2, package.value2);
     }
 
-    // display 4
+    // display 4 - raw sysex output
     MIOS32_LCD_DeviceSet(3);
     MIOS32_LCD_CursorSet(0, 0); // X, Y
     MIOS32_LCD_PrintFormattedString("Midi-Message-RAW");
