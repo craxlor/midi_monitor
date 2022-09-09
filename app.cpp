@@ -50,6 +50,20 @@ extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_pack
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// This hook is called before the shift register chain is scanned
+/////////////////////////////////////////////////////////////////////////////
+extern "C" void APP_SRIO_ServicePrepare(void)
+{
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// This hook is called after the shift register chain has been scanned
+/////////////////////////////////////////////////////////////////////////////
+extern "C" void APP_SRIO_ServiceFinish(void)
+{
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // This hook is called when a button has been toggled
 // pin_value is 1 when button released, and 0 when button pressed
 /////////////////////////////////////////////////////////////////////////////
@@ -57,7 +71,7 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 {
   switch (pin) // determine button
   {
-  case 17:               // encoder button
+  case 17:              // encoder button
     if (pin_value == 0) // has been pressed
     {
       APP.changeVisualizationMode();
@@ -75,8 +89,16 @@ extern "C" void APP_DIN_NotifyToggle(u32 pin, u32 pin_value)
 extern "C" void APP_ENC_NotifyChange(u32 encoder, s32 incrementer)
 {
   mios32_enc_config_t encoder_cfg = MIOS32_ENC_ConfigGet(encoder);
-  if (encoder_cfg.cfg.pos == 0 && encoder_cfg.cfg.sr == 2) {
-    //incrementer negative -> clockwise turn
+  if (encoder_cfg.cfg.pos == 0 && encoder_cfg.cfg.sr == 2)
+  {
+    // incrementer negative -> clockwise turn
     APP.changeSelectedChannel(incrementer < 0);
   }
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// This hook is called when a pot has been moved
+/////////////////////////////////////////////////////////////////////////////
+extern "C" void APP_AIN_NotifyChange(u32 pin, u32 pin_value)
+{
 }
