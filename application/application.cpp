@@ -1,6 +1,6 @@
 /**
  * @file application.cpp
- * @authors Arnaud Kalthoff, DOminic Jabs
+ * @authors Arnaud Kalthoff, DOminic Jabs, Dave Jindal
  * @brief implements all methods of application.h
  * 
  * @copyright Copyright (c) 2022

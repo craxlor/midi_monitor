@@ -1,6 +1,6 @@
 /**
  * @file keyboard.cpp
- * @authors Arnaud Kalthoff, Dominic Jabs
+ * @authors Arnaud Kalthoff, Dominic Jabs, Dave Jindal
  * @brief implements all methods of keyboard.h
  *
  * @copyright Copyright (c) 2022
