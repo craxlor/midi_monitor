@@ -1,9 +1,18 @@
+/**
+ * @file text.cpp
+ * @authors Arnaud Kalthoff, Dominic Jabs, Dave Jindal
+ * @brief implements all methods of text.h
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #include "text.h"
 #include "midihelper/midihelper.h"
 #include <string>
 
 void Text::draw(mios32_midi_package_t package)
 {
+
     // display 1: pretty print
     MIOS32_LCD_DeviceSet(0);
     MIOS32_LCD_CursorSet(0, 0); // X, Y

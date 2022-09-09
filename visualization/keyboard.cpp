@@ -1,5 +1,13 @@
+/**
+ * @file keyboard.cpp
+ * @authors Arnaud Kalthoff, Dominic Jabs, Dave Jindal
+ * @brief implements all methods of keyboard.h
+ *
+ * @copyright Copyright (c) 2022
+ */
 #include "keyboard.h"
 #include "midihelper/midihelper.h"
+
 
 u8 piano_bitmap[] = { // 126x32px
     0xfe, 0xfe, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0xfe,
@@ -100,6 +108,7 @@ void Keyboard::drawNotestack(notestack_t notestack)
         }
 
         int standardKeyOffset = 3;
+
         // includes the keygap between octaves
         int octaveOffset = standardKeyOffset * 14;
         // starting from 1

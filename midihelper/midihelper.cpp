@@ -1,3 +1,10 @@
+/**
+ * @file midihelper.cpp
+ * @authors Arnaud Kalthoff, Dominic Jabs
+ * @brief implements all methods of midihelper.h
+ * 
+ * @copyright Copyright (c) 2022
+ */
 #include <mios32.h>
 #include <string>
 #include "midihelper.h"
