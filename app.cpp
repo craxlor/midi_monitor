@@ -41,62 +41,12 @@ extern "C" void APP_Init(void)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// This task is running endless in background
-/////////////////////////////////////////////////////////////////////////////
-extern "C" void APP_Background(void)
-{
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// This hook is called each mS from the main task which also handles DIN, ENC
-// and AIN events. You could add more jobs here, but they shouldn't consume
-// more than 300 uS to ensure the responsiveness of buttons, encoders, pots.
-// Alternatively you could create a dedicated task for application specific
-// jobs as explained in $MIOS32_PATH/apps/tutorials/006_rtos_tasks
-/////////////////////////////////////////////////////////////////////////////
-extern "C" void APP_Tick(void)
-{
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// This hook is called each mS from the MIDI task which checks for incoming
-// MIDI events. You could add more MIDI related jobs here, but they shouldn't
-// consume more than 300 uS to ensure the responsiveness of incoming MIDI.
-/////////////////////////////////////////////////////////////////////////////
-extern "C" void APP_MIDI_Tick(void)
-{
-}
-
-/////////////////////////////////////////////////////////////////////////////
 // This hook is called when a MIDI package has been received
 /////////////////////////////////////////////////////////////////////////////
 extern "C" void APP_MIDI_NotifyPackage(mios32_midi_port_t port, mios32_midi_package_t midi_package)
 {
   APP.setLastReceivedPackage(midi_package);
   APP.draw();
-  MIOS32_MIDI_SendDebugMessage("note: %s", MidiHelper::getNote(midi_package.note)); // works
-  // for debugging which packages are being received
-  // MIOS32_MIDI_SendDebugMessage("type: %s chn: %d note: %s velo: %d cc: %s",
-  //                              MidiHelper::getType(midi_package.type),
-  //                              MidiHelper::getChannel(midi_package.chn),
-  //                              MidiHelper::getNote(midi_package.note), // works not
-  //                              midi_package.velocity,
-  //                              MidiHelper::getCCs(midi_package.cc_number, midi_package.value));
-  NOTESTACK_SendDebugMessage(APP.getNotestack());
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// This hook is called before the shift register chain is scanned
-/////////////////////////////////////////////////////////////////////////////
-extern "C" void APP_SRIO_ServicePrepare(void)
-{
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// This hook is called after the shift register chain has been scanned
-/////////////////////////////////////////////////////////////////////////////
-extern "C" void APP_SRIO_ServiceFinish(void)
-{
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -129,11 +79,4 @@ extern "C" void APP_ENC_NotifyChange(u32 encoder, s32 incrementer)
     //incrementer negative -> clockwise turn
     APP.changeSelectedChannel(incrementer < 0);
   }
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// This hook is called when a pot has been moved
-/////////////////////////////////////////////////////////////////////////////
-extern "C" void APP_AIN_NotifyChange(u32 pin, u32 pin_value)
-{
 }
