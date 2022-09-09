@@ -85,8 +85,3 @@ void Application::draw()
     else
         MIOS32_LCD_PrintFormattedString("selected channel: %d", (contextSelectedChannel + 1));
 }
-
-notestack_t *Application::getNotestack()
-{
-    return &notestack[selectedChannel];
-}

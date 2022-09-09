@@ -55,8 +55,6 @@ public:
     void changeSelectedChannel(bool directionUp);
 
     void draw();
-
-    notestack_t *getNotestack();
 };
 
 #endif
