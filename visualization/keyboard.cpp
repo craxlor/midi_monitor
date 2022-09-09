@@ -8,7 +8,8 @@
 #include "keyboard.h"
 #include "midihelper/midihelper.h"
 
-u8 Keyboard::piano_bitmap[] = { // 126x32px, generated from image2cpp
+
+u8 piano_bitmap[] = { // 126x32px
     0xfe, 0xfe, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0xfe,
     0xfe, 0x00, 0xfe, 0xfe, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0x00, 0x00, 0x00, 0x00, 0x00,
     0xfe, 0x00, 0x00, 0x00, 0x00, 0x00, 0xfe, 0xfe, 0xfe, 0x00, 0xfe, 0xfe, 0xfe, 0x00, 0x00, 0x00,
@@ -42,10 +43,11 @@ u8 Keyboard::piano_bitmap[] = { // 126x32px, generated from image2cpp
     0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00, 0x7f, 0x7f, 0x7f, 0x7f,
     0x7f, 0x00, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x00};
 
-mios32_lcd_bitmap_t Keyboard::bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 32, 126, 1);
+const mios32_lcd_bitmap_t bitmap = MIOS32_LCD_BitmapInit(piano_bitmap, 126, 32, 126, 1);
 
 void Keyboard::drawKeyboard()
 {
+
     const char *octave = "";
     // draw keyboard on first 4 displays
     for (size_t i = 0; i < 4; i++)
@@ -106,7 +108,8 @@ void Keyboard::drawNotestack(notestack_t notestack)
         }
 
         int standardKeyOffset = 3;
-        // includes they keygap between octaves
+
+        // includes the keygap between octaves
         int octaveOffset = standardKeyOffset * 14;
         // starting from 1
         int currentKey = (note % 12 + 1);
@@ -114,7 +117,6 @@ void Keyboard::drawNotestack(notestack_t notestack)
         // locates the penultimate pixel (width) of a key
         pixelColumnIndex = (currentKey * standardKeyOffset) + keyGapOffset + note / 12 * octaveOffset;
 
-        // draws 3 lines upon keyboard bitmap, with each line filling 1 pixel of width
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 2, height);
         MIOS32_LCD_Data(byteToDraw);
         MIOS32_LCD_GCursorSet(pixelColumnIndex - 1, height);

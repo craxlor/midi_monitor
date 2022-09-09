@@ -52,8 +52,6 @@ public:
 
     void changeVisualizationMode();
 
-    const char *getVisualizationModeAsString();
-
     void changeSelectedChannel(bool directionUp);
 
     void draw();
