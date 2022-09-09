@@ -100,7 +100,7 @@ void Keyboard::drawNotestack(notestack_t notestack)
         }
 
         int standardKeyOffset = 3;
-        // includes they keygap between octaves
+        // includes the keygap between octaves
         int octaveOffset = standardKeyOffset * 14;
         // starting from 1
         int currentKey = (note % 12 + 1);

@@ -4,8 +4,6 @@
 
 Application::Application()
 {
-    MIOS32_MIDI_SendDebugString("called application constructor");
-
     // notestack init
     for (size_t i = 0; i < 16; i++)
     {
@@ -31,7 +29,6 @@ void Application::setLastReceivedPackage(mios32_midi_package_t p)
 void Application::changeVisualizationMode()
 {
     visualizationmode = !visualizationmode;
-    MIOS32_MIDI_SendDebugMessage("visualizationmode: %s", getVisualizationModeAsString());
 }
 
 void Application::changeSelectedChannel(bool directionUp)
@@ -50,15 +47,6 @@ void Application::changeSelectedChannel(bool directionUp)
         else
             selectedChannel--;
     }
-    MIOS32_MIDI_SendDebugMessage("Channel: %d", (selectedChannel + 1));
-}
-
-const char *Application::getVisualizationModeAsString()
-{
-    if (visualizationmode)
-        return "TEXT";
-    else
-        return "KEYBOARD";
 }
 
 void Application::draw()
