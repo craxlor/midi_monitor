@@ -2,7 +2,8 @@
  * @file application.h
  * @authors Arnaud Kalthoff
  * @brief The Application class is implemented as a singleton.
- *
+ * @see https://stackoverflow.com/questions/1008019/c-singleton-design-pattern
+ * 
  * @copyright Copyright (c) 2022
  */
 #ifndef APPLICATION_H
